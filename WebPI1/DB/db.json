@@ -1,0 +1,105 @@
+{
+  "users": [
+    {
+      "firstName": "Tiago",
+      "lastName": "Pereira",
+      "email": "tiagogabrielpereira@gmail.com",
+      "registered": false,
+      "blocked": false,
+      "id": 1
+    }
+  ],
+  "PlannedActivities": [
+    {
+      "id": 1,
+      "projectName": "Engineer",
+      "users": 2,
+      "date": [
+        "01/10/2022",
+        "16/10/2022"
+      ],
+      "resources": "Cormorant, javanese"
+    },
+    {
+      "id": 2,
+      "projectName": "Construction Manager",
+      "users": 2,
+      "date": [
+        "07/10/2022"
+      ],
+      "resources": "Robin, white-throated"
+    },
+    {
+      "id": 3,
+      "projectName": "Construction Manager",
+      "users": 10,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Magpie, australian"
+    },
+    {
+      "id": 4,
+      "projectName": "Construction Worker",
+      "users": 9,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Vulture, white-rumped"
+    },
+    {
+      "id": 5,
+      "projectName": "Architect",
+      "users": 3,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Zebra, plains"
+    },
+    {
+      "id": 6,
+      "projectName": "Construction Manager",
+      "users": 1,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Springbok"
+    },
+    {
+      "id": 7,
+      "projectName": "Construction Worker",
+      "users": 9,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Chuckwalla"
+    },
+    {
+      "id": 8,
+      "projectName": "Subcontractor",
+      "users": 8,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Cattle egret"
+    },
+    {
+      "id": 9,
+      "projectName": "Construction Expeditor",
+      "users": 5,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Dragon, frilled"
+    },
+    {
+      "id": 10,
+      "projectName": "Electrician",
+      "users": 8,
+      "date": [
+        "14/10/2022"
+      ],
+      "resources": "Sungazer, yellow-brown"
+    }
+  ]
+}
