@@ -1,8 +1,13 @@
 import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { useProjectStore } from "./Project"
 
 export const useActivityStore = defineStore("Activity", () => {
+
+	
+
+
 	const Activitys = ref(
 		useLocalStorage("Activitys", [
 			{
@@ -11,7 +16,7 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 1,
 				name: "Instalar canos novos",
 				diagonóstico: "texto",
-				objetivos: [],
+				objetivos:"texto",
 				metas: "texto",
 				acoes: [],
 				recursos: "texto",
@@ -26,7 +31,7 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 1,
 				name: "Instalar canos novos",
 				diagonóstico: "texto",
-				objetivos: [],
+				objetivos:  "texto",
 				metas: "texto",
 				acoes: [],
 				recursos: "texto",
@@ -41,7 +46,7 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 2,
 				name: "Montar Paineis Solares",
 				diagonóstico: "texto",
-				objetivos: [],
+				objetivos:  "texto",
 				metas: "texto",
 				acoes: [],
 				recursos: "texto",
@@ -59,7 +64,7 @@ export const useActivityStore = defineStore("Activity", () => {
    * @param {Number} Activity.idArea
    * @param {String} Activity.name
    * @param {String} Activity.diagonóstico
-   * @param {Array} Activity.objetivos
+   * @param {String} Activity.objetivos
    * @param {String} Activity.metas
    * @param {Array} Activity.acoes
    * @param {String} Activity.recursos
@@ -164,6 +169,13 @@ export const useActivityStore = defineStore("Activity", () => {
 			(Activity) => Activity.idProject == idProject);
 	}
 
+	function GetActivitysByProjectFunctionAsFormList(idProject) {
+		return Activitys.value.filter(
+			(Activity) => Activity.idProject == idProject).map(Activity=> ({value: Activity.id, text: Activity.name}));
+	}
+
+
+
 
 	return {
 		GetActivitysByProjectFunction,
@@ -174,5 +186,6 @@ export const useActivityStore = defineStore("Activity", () => {
 		ChangeActivity,
 		DeleteActivity,
 		GetActivityById,
+		GetActivitysByProjectFunctionAsFormList,
 	};
 });

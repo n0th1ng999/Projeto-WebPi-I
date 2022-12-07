@@ -2,9 +2,13 @@ import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import { useProjectStore } from "./Project"
+import { useActivityStore } from "./Activity"
 
 export const useUserStore = defineStore("User", () => {
 	const ProjectStore = useProjectStore()
+	const ActivityStore = useActivityStore()
+
+	
 
 	const LoggedUser = ref(useLocalStorage("LoggedUser", {}));
 

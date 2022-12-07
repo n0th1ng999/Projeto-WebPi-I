@@ -23,7 +23,8 @@ export const useExecutionStore = defineStore("Execution", () => {
 	);
 
 	/**
-	 * @param {String} Text Text of new Execution
+	 * 
+	 * @param {*} Execution 
 	 */
 	function CreateExecution(Execution) {
 		Executions.value.push({

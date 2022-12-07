@@ -23,6 +23,7 @@ import ExecuteActivityView from "../views/Projects/ExecuteActivityView.vue"
 import CreateActivityView from "../views/Projects/CreateActivityView.vue"
 import ExecutionsView from "../views/Projects/ExecutionsView.vue"
 import ActivityView from "../views/Projects/ActivityView.vue"
+import EditActivityView from "../views/Projects/EditActivityView.vue"
 
 import { useUserStore } from "../stores/User";
 
@@ -103,6 +104,11 @@ const router = createRouter({
 			path: "/Project/Activity/:id",
 			name: "Activity",
 			component: ActivityView,
+		},
+		{
+			path: "/Project/EditActivity/:id",
+			name: "EditActivity",
+			component: EditActivityView,
 		},
 		{
 			path: "/Project/ExecuteActivity",
