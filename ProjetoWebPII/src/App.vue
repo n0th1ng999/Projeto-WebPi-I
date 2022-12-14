@@ -1,6 +1,6 @@
 <script>
+import MultipleInput from "./components/MultipleInput.vue";
 import Navbar from "./components/Navbar.vue"
-import MultipleInput from "./components/MultipleInput.vue"
 import { useRoute } from "vue-router";
 import { watch , ref} from "vue";
 
@@ -11,8 +11,7 @@ export default {
 	},
 	setup () {
 		
-		const listOfContentRef = ref([{value:1,text:'Text'}, {value:2,text:'Text'}, {value:3,text:'Text'}])
-
+		
 		const route = useRoute()
 		
 		const RoutesThatDontNeedSideNav = [
@@ -30,7 +29,7 @@ export default {
 	
 		const NavState = ref(true)
 		
-		return { Navbar,NavState,MultipleInput,listOfContentRef }
+		return { Navbar, NavState }
 	}
 
 }
@@ -38,9 +37,8 @@ export default {
 </script>
 
 <template >
-	jkkhkjhkjhhkjhk
 	<Navbar v-if="NavState"/>
-	<MultipleInput :ListOfContent="listOfContentRef"  />
+	<MultipleInput :ListOfContent="[{value:1,text:'cona'}]"/>
 	<RouterView />
 </template>
 

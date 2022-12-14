@@ -1,12 +1,13 @@
 <template>
     <div>
-        Multiple Inputs2
+        Multiple Inputs
         <br>
         <label for="">Ola</label>
         <div v-for="Content in props.ListOfContent" :key="Content.value">
             {{Content}}
-           <input type="text" class="form-input">
+           <input type="text" class="form-input" v-model="Content.text" >
         </div >
+        <b-button variant="secondary">+</b-button>
 
     </div>
 </template>
