@@ -9,7 +9,7 @@ export const useProjectStore = defineStore("Project", () => {
 				id: 1,
 				nameSchool: "Escola 1",
 				nameProject: "Agricultura Sustentável",
-				state: "Execução",
+				state: "Planeamento",
 				collaborators: [2],
 				level: "",
 			},

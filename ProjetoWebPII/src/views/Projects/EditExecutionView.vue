@@ -14,7 +14,7 @@
 				label-for="selecionadorAtividade"
 			>
 				<b-form-select 
-					
+					disabled
 					id="selecionadorAtividade"
 					v-model="formData.idActivity"
 					:options="ProjectActivityListAreaAndId"
@@ -64,27 +64,33 @@ export default {
 		const ExecutionStore = useExecutionStore();
 		const UserStore = useUserStore();
 		const Router = useRouter();
-	
+		const Route = useRoute();
 
+		const Execution = ref(ExecutionStore.GetExecutionById(Route.params.id))
+		
+		console.log(Execution.value)
 
 		const formData = reactive({
-			idActivity: '',
-			description: '' ,
-			image: '' ,
+			idActivity: Execution.value.idActivity,
+			description: Execution.value.description ,
+			image: Execution.value.image ,
 		});
+
+
+		const targetActivityName = ref();
 
 		function onSubmit(event) {
 			event.preventDefault();
 
-			ExecutionStore.CreateExecution({
-				
+			ExecutionStore.ChangeExecution({
+				id: Execution.value.id,
 				idActivity: formData.idActivity,
 				description: formData.description,
-				image: formData.image })	
-				
+				image: formData.image == "" ? formData.image : Execution.value.image,})	
+
 				Router.push('/Project/Executions')
-			}
-			
+		}
+
 
 		const ProjectActivityList = ActivityStore.GetActivitysByProjectFunction(
 			UserStore.FindLoggedUserProject().id
@@ -98,7 +104,7 @@ export default {
 			ProjectActivityListAreaAndId,
 			formData,
 			onSubmit,
-		
+			targetActivityName,
 		};
 	},
 };

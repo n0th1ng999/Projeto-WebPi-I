@@ -2,42 +2,48 @@ import { createRouter, createWebHistory } from "vue-router";
 import CheatSheet from "../views/CheatSheetView.vue";
 
 //Inical Route views
-import LandingPageView from "../views/LandingPageView.vue"
-import LoginView from "../views/LoginView.vue"
+import LandingPageView from "../views/LandingPageView.vue";
+import LoginView from "../views/LoginView.vue";
 
 //Home Route view
 import Home from "../views/HomeView.vue";
 
 //Reunion route views
-import ReunionsView from  "../views/Reunions/ReunionsView.vue"
-import ReunionView from  "../views/Reunions/ReunionView.vue"
-import CreateReunionView from  "../views/Reunions/CreateReunionView.vue"
+import ReunionsView from "../views/Reunions/ReunionsView.vue";
+import ReunionView from "../views/Reunions/ReunionView.vue";
+import CreateReunionView from "../views/Reunions/CreateReunionView.vue";
 
 //Profile Route views
-import ProfileView from  "../views/Profile/ProfileView.vue"
-import EditProfileView from  "../views/Profile/EditProfileView.vue"
+import ProfileView from "../views/Profile/ProfileView.vue";
+import EditProfileView from "../views/Profile/EditProfileView.vue";
 
 //Project route views
-import ProjectView from "../views/Projects/ProjectView.vue"
-import ExecuteActivityView from "../views/Projects/ExecuteActivityView.vue"
-import CreateActivityView from "../views/Projects/CreateActivityView.vue"
-import ExecutionsView from "../views/Projects/ExecutionsView.vue"
-import ActivityView from "../views/Projects/ActivityView.vue"
-import EditActivityView from "../views/Projects/EditActivityView.vue"
+import ExecuteActivityView from "../views/Projects/ExecuteActivityView.vue";
+import CreateActivityView from "../views/Projects/CreateActivityView.vue";
+import EditExecutionView from "../views/Projects/EditExecutionView.vue";
+import ProjectView from "../views/Projects/ProjectView.vue";
+import ExecutionsView from "../views/Projects/ExecutionsView.vue";
+import ActivityView from "../views/Projects/ActivityView.vue";
+import EditActivityView from "../views/Projects/EditActivityView.vue";
 
 import { useUserStore } from "../stores/User";
 
 function CheckLoggedInAdmin() {
 	// Checks if its logged in and Admin
-	if (!useUserStore().CheckIfLoggedUserIsAdmin()) {
+	
+	const UserStore = useUserStore()
+
+	if (!UserStore.CheckIfLoggedUserIsAdmin()) {
 		router.push("/404");
 	}
 }
 
 function CheckLoggedIn() {
+
+	const UserStore = useUserStore()
 	// Checks if its logged in
-	if (!useUserStore().CheckIfLoggedUserIsLogged()) {
-		router.push("/404");
+	if (!UserStore.CheckIfLoggedUserIsLogged()) {
+		router.push("/Login");
 	}
 }
 
@@ -51,12 +57,12 @@ const router = createRouter({
 			//beforeEnter: [CheckLoggedInAdmin],
 		},
 		{
-			path: "/",
+			path: "/Home",
 			name: "Home",
 			component: Home,
 		},
 		{
-			path: "/LandingPage",
+			path: "/",
 			name: "LandingPage",
 			component: LandingPageView,
 		},
@@ -94,6 +100,7 @@ const router = createRouter({
 			path: "/Project",
 			name: "Project",
 			component: ProjectView,
+			
 		},
 		{
 			path: "/Project/CreateActivity",
@@ -111,6 +118,11 @@ const router = createRouter({
 			component: EditActivityView,
 		},
 		{
+			path: "/Project/EditExecution/:id",
+			name: "EditExecutionView",
+			component: EditExecutionView,
+		},
+		{
 			path: "/Project/ExecuteActivity",
 			name: "ExecuteActivity",
 			component: ExecuteActivityView,
@@ -119,7 +131,7 @@ const router = createRouter({
 			path: "/Project/Executions",
 			name: "Executions",
 			component: ExecutionsView,
-		}
+		},
 	],
 });
 

@@ -23,12 +23,14 @@ export const useExecutionStore = defineStore("Execution", () => {
 	);
 
 	/**
-	 * 
-	 * @param {*} Execution 
+	 *
+	 * @param {*} Execution
 	 */
 	function CreateExecution(Execution) {
+		
+
 		Executions.value.push({
-			id: Executions.value[Executions.value.length - 1].id++,
+			id:  Executions.value[Executions.value.length -1].id + 1 ,
 			idActivity: Execution.idActivity,
 			description: Execution.description,
 			image: Execution.image,
@@ -90,10 +92,14 @@ export const useExecutionStore = defineStore("Execution", () => {
 		GetExecutionByActivity.value = idActivity;
 	}
 
-	function GetExecutionByActivityFunction(idActivity){
+	function GetExecutionByActivityFunction(idActivity) {
 		return Executions.value.filter(
 			(Execution) => Execution.idActivity == idActivity
 		);
+	}
+
+	function GetExecutionById(id){
+		return Executions.value.find( execution => execution.id == id)
 	}
 
 	return {
@@ -104,5 +110,6 @@ export const useExecutionStore = defineStore("Execution", () => {
 		ChangeExecution,
 		DeleteExecution,
 		GetExecutionByActivityFunction,
+		GetExecutionById
 	};
 });

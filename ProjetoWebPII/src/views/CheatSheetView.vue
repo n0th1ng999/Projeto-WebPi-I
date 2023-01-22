@@ -49,7 +49,6 @@
 		<br />
 
 		{{ useUserStore().GetUser }}
-		
 
 		<h2>Project</h2>
 		<h3>//Getter Todos</h3>
@@ -95,18 +94,16 @@ export default {
 		useAreaStore().SetArea(2);
 
 		useUserStore().SetUser(1);
-		
+
 		//TryCatch --> erro devolve mensagem
 		//useUserStore().LogIn('Admin@example','xkhzkdrgs')
-		useUserStore().LogIn('user@example','ae3j0v2gu')
-		
+		useUserStore().LogIn("user@example", "ae3j0v2gu");
 
 		//useUserStore().LogOff()
 
 		//Returns True or false
 		//useUserStore().CheckIfLoggedUserIsLogged()
 		//useUserStore().CheckIfLoggedUserIsAdmin()
-
 
 		useProjectStore().SetProject(1);
 

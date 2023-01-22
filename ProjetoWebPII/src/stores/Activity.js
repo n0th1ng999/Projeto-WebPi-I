@@ -1,13 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import { useProjectStore } from "./Project"
+import { useProjectStore } from "./Project";
 
 export const useActivityStore = defineStore("Activity", () => {
-
-	
-
-
 	const Activitys = ref(
 		useLocalStorage("Activitys", [
 			{
@@ -16,9 +12,9 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 1,
 				name: "Instalar canos novos",
 				diagonóstico: "texto",
-				objetivos:"texto",
+				objetivos: "texto",
 				metas: "texto",
-				acoes: [],
+				acoes: "1 - Cenas",
 				recursos: "texto",
 				dataInicio: new Date(),
 				dataFim: new Date(),
@@ -31,9 +27,9 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 1,
 				name: "Instalar canos novos",
 				diagonóstico: "texto",
-				objetivos:  "texto",
+				objetivos: "texto",
 				metas: "texto",
-				acoes: [],
+				acoes: "1 - Cenas",
 				recursos: "texto",
 				dataInicio: new Date(),
 				dataFim: new Date(),
@@ -46,9 +42,9 @@ export const useActivityStore = defineStore("Activity", () => {
 				idArea: 2,
 				name: "Montar Paineis Solares",
 				diagonóstico: "texto",
-				objetivos:  "texto",
+				objetivos: "texto",
 				metas: "texto",
-				acoes: [],
+				acoes: "1 - Cenas",
 				recursos: "texto",
 				dataInicio: new Date(),
 				dataFim: new Date(),
@@ -111,13 +107,14 @@ export const useActivityStore = defineStore("Activity", () => {
 	 */
 	function ChangeActivity(ActivityObj) {
 		let ActivityIndex = Activitys.value.findIndex(
-			(Activity) => Activity.id == ActivityObj.id
+			Activity => Activity.id == ActivityObj.id
 		);
+		
 		Activitys.value[ActivityIndex] = ActivityObj;
 	}
 
 	function GetActivityById(id) {
-		return Activitys.value.find(Activity => Activity.id == id)
+		return Activitys.value.find((Activity) => Activity.id == id);
 	}
 
 	/**
@@ -166,16 +163,15 @@ export const useActivityStore = defineStore("Activity", () => {
 
 	function GetActivitysByProjectFunction(idProject) {
 		return Activitys.value.filter(
-			(Activity) => Activity.idProject == idProject);
+			(Activity) => Activity.idProject == idProject
+		);
 	}
 
 	function GetActivitysByProjectFunctionAsFormList(idProject) {
-		return Activitys.value.filter(
-			(Activity) => Activity.idProject == idProject).map(Activity=> ({value: Activity.id, text: Activity.name}));
+		return Activitys.value
+			.filter((Activity) => Activity.idProject == idProject)
+			.map((Activity) => ({ value: Activity.id, text: Activity.name }));
 	}
-
-
-
 
 	return {
 		GetActivitysByProjectFunction,

@@ -1,44 +1,42 @@
 <script>
-import MultipleInput from "./components/MultipleInput.vue";
-import Navbar from "./components/Navbar.vue"
+
+import Navbar from "./components/Navbar.vue";
 import { useRoute } from "vue-router";
-import { watch , ref} from "vue";
+import { watch, ref } from "vue";
 
 export default {
-
-	components:{
-		Navbar,MultipleInput
+	components: {
+		Navbar
+	
 	},
-	setup () {
-		
-		
-		const route = useRoute()
-		
-		const RoutesThatDontNeedSideNav = [
-			'/LandingPage', '/login', 
-		]
-		
-		watch(route, async (newRoute,OldRoute) => {
-	
-			if(RoutesThatDontNeedSideNav.some(routePath => routePath == newRoute.fullPath)){
-				NavState.value = false
-			}else{
-				NavState.value = true
+	setup() {
+		const route = useRoute();
+
+		const RoutesThatDontNeedSideNav = ["/", "/login"];
+
+		watch(route, async (newRoute, OldRoute) => {
+			if (
+				RoutesThatDontNeedSideNav.some(
+					(routePath) => routePath == newRoute.fullPath
+				)
+			) {
+				NavState.value = false;
+			} else {
+				NavState.value = true;
 			}
-		})
-	
-		const NavState = ref(true)
-		
-		return { Navbar, NavState }
-	}
+		});
 
-}
+		const NavState = ref(true);
 
+		return { Navbar, NavState };
+	},
+};
 </script>
 
-<template >
-	<Navbar v-if="NavState"/>
-	<MultipleInput :ListOfContent="[{value:1,text:'cona'}]"/>
+<template>
+	<Navbar v-if="NavState" />
+	
+
 	<RouterView />
 </template>
 

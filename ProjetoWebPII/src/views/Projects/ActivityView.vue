@@ -1,43 +1,74 @@
 <template>
-    <div>
-        <h2>Activity view</h2>
-        <h3>Nome: {{Activity.name}}</h3>
-        
-      
-        <b-button 
-        v-if="userStore.FindLoggedUserProjectState() !== 'Planeamento'"
-        @click="GoToEditActivity"
-        variant="success">Edit the Activity</b-button>
-    </div>
+	<div>
+		<h2>Activity view</h2>
+		<h3>Nome: {{ Activity.name }}</h3>
+
+		<b-button variant="clear" type="button" @click="GoToProjectView()">⬅️</b-button>
+		
+		<h4>Área</h4>
+		{{AreaStore.GetAreaById(Activity.idArea).name}}
+		<h4>Objetivos</h4>
+		{{Activity.objetivos}}
+		
+		<h4>Ações</h4>
+		{{Activity.acoes}}
+		<h4>Avaliação Indicadores</h4>
+		{{Activity.avaliacaoIndicadores}}
+		<h4>Avaliação Instrumentos</h4>
+		{{Activity.avaliacaoInstrumentos}}
+		<h4>recursos</h4>
+		{{Activity.recursos}}
+		<h4>dataInicio</h4>
+		{{Activity.dataInicio}}
+		<h4>dataFim</h4>
+		{{Activity.dataFim}}
+		<h4>metas</h4>
+		{{Activity.metas}}
+		<h4>diagonóstico</h4>
+		{{Activity.diagonóstico}}
+
+		<br>
+		<b-button
+			v-if="userStore.FindLoggedUserProjectState() == 'Planeamento'"
+			@click="GoToEditActivity"
+			variant="success"
+			>Editar a Atividade</b-button
+		>
+		<b-button variant="secondary" @click="GoToProjectView" > ⬅️ Voltar</b-button
+		>
+	</div>
 </template>
 
 <script>
-import { useRoute,useRouter } from 'vue-router'
-import { useActivityStore } from '../../stores/Activity';
-import { useUserStore } from '../../stores/User'
-
+import { useRoute, useRouter } from "vue-router";
+import { useActivityStore } from "../../stores/Activity";
+import { useUserStore } from "../../stores/User";
+import { useAreaStore } from "../../stores/Area";
 
 export default {
-    setup () {
-        
-        //<RouterLink :to="`Project/EditActivity/${Route.params.id}`"> Edit The view </RouterLink>
+	setup() {
+		//<RouterLink :to="`Project/EditActivity/${Route.params.id}`"> Edit The view </RouterLink>
 
-        const Route = useRoute()
-        const Router = useRouter()
-        const userStore = useUserStore()
-        const ActivityStore = useActivityStore()
+		const Route = useRoute();
+		const Router = useRouter();
+		const userStore = useUserStore();
+		const ActivityStore = useActivityStore();
+		const AreaStore = useAreaStore()
 
-        const Activity = ActivityStore.GetActivityById(Route.params.id)
+		const Activity = ActivityStore.GetActivityById(Route.params.id);
 
-        function GoToEditActivity() {
-            Router.push(`/Project/EditActivity/${Route.params.id}`)
-        }
+		function GoToEditActivity() {
+			Router.push(`/Project/EditActivity/${Route.params.id}`);
+		}
 
-        return {Activity,GoToEditActivity,userStore}
-    }
-}
+		function GoToProjectView() {
+			Router.push(`/Project`);
+		}
+
+
+		return { Activity, GoToEditActivity, userStore, AreaStore , GoToProjectView };
+	},
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

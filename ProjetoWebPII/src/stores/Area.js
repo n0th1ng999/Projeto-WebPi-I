@@ -49,7 +49,7 @@ export const useAreaStore = defineStore("Area", () => {
 	});
 
 	const GetAreasAsFormList = computed(() => {
-		return Areas.value.map(Area => ({value:Area.id,text:Area.name}));  ;
+		return Areas.value.map((Area) => ({ value: Area.id, text: Area.name }));
 	});
 
 	/** 
@@ -82,8 +82,15 @@ export const useAreaStore = defineStore("Area", () => {
 	function GetAreaById(id) {
 		return Areas.value.find((Area) => Area.id == id);
 	}
-	
 
-
-	return { GetAreas, GetArea, SetArea, CreateArea, ChangeArea, DeleteArea,GetAreaById,GetAreasAsFormList};
+	return {
+		GetAreas,
+		GetArea,
+		SetArea,
+		CreateArea,
+		ChangeArea,
+		DeleteArea,
+		GetAreaById,
+		GetAreasAsFormList,
+	};
 });

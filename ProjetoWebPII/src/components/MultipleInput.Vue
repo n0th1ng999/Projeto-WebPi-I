@@ -1,39 +1,46 @@
 <template>
-    <div>
-        Multiple Inputs
-        <br>
-        <label for="">Ola</label>
-        <div v-for="Content in props.ListOfContent" :key="Content.value">
-            {{Content}}
-           <input type="text" class="form-input" v-model="Content.text" >
-        </div >
-        <b-button variant="secondary">+</b-button>
-
-    </div>
+	<div>
+		<template v-for="(value, index) in values" :key="index">
+			<br />
+			<label :for="'input-' + index">Value {{ index + 1 }}</label>
+			<input v-model="values[index]" :id="'input-' + index" />
+		</template>
+		<br />
+		<button @click="addField">Add Field</button>
+		<button @click="saveValues">Save Values</button>
+	</div>
 </template>
 
 <script>
-import { ref } from 'vue'
-
-/**
- * @Component Creates Multiple Inputs 
- * @Prop :ListOfContent="Content"
- */
+import { ref, defineEmits } from "vue";
 
 export default {
-    props: {
-        ListOfContent: Object
-    },
-    setup(props) {
-        // setup() receives props as the first argument.
-        
+	props: {
+		values: Array,
+	},
+	setup(props, context) {
+		const values = ref(props.values);
+		const updatedValues = ref(props.values);
 
-        return{ props }
-    }
-}
+		const emit = defineEmits(["update:values"]);
 
+		function addField() {
+			updatedValues.value.push("");
+		}
+
+		function saveValues() {
+			values.value = updatedValues.value;
+			context.emit("update:values", updatedValues.value);
+		}
+
+		return {
+			values,
+			updatedValues,
+			addField,
+			saveValues,
+		};
+	},
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

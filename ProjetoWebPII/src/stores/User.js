@@ -1,37 +1,32 @@
 import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import { useProjectStore } from "./Project"
-import { useActivityStore } from "./Activity"
+import { useProjectStore } from "./Project";
+import { useActivityStore } from "./Activity";
 
 export const useUserStore = defineStore("User", () => {
-	const ProjectStore = useProjectStore()
-	const ActivityStore = useActivityStore()
-
-	
+	const ProjectStore = useProjectStore();
+	const ActivityStore = useActivityStore();
 
 	const LoggedUser = ref(useLocalStorage("LoggedUser", {}));
 
 	function FindLoggedUserProject() {
-
-		return ProjectStore.GetProjects.find(
-			Project => Project.collaborators.some(
-				collaboratorId => collaboratorId == LoggedUser.value.id))
-		
-
+		return ProjectStore.GetProjects.find((Project) =>
+			Project.collaborators.some(
+				(collaboratorId) => collaboratorId == LoggedUser.value.id
+			)
+		);
 	}
-
 
 	function FindLoggedUserProjectState() {
-		let state =  ProjectStore.GetProjects.find(
-			Project => Project.collaborators.some(
-				collaboratorId => collaboratorId == LoggedUser.value.id)).state
-		
-		return state		
+		let state = ProjectStore.GetProjects.find((Project) =>
+			Project.collaborators.some(
+				(collaboratorId) => collaboratorId == LoggedUser.value.id
+			)
+		).state;
+
+		return state;
 	}
-
-
-
 
 	function CheckIfLoggedUserIsLogged() {
 		//Verifica se o LoggedUser consta na base de dados
@@ -39,7 +34,7 @@ export const useUserStore = defineStore("User", () => {
 			Users.value.find(
 				(user) =>
 					user.password == LoggedUser.value.password &&
-					user.id == LoggedUser.value.id && 
+					user.id == LoggedUser.value.id &&
 					user.admin == LoggedUser.value.admin
 			)
 		) {
@@ -91,6 +86,9 @@ export const useUserStore = defineStore("User", () => {
 				id: 1,
 				email: "Admin@example",
 				name: "Filipa Azevedo",
+				escola: "ESMAD",
+				ocupacao:"Professor",
+				role: "coordenador",
 				password: Math.random().toString(36).slice(4),
 				admin: true,
 			},
@@ -98,6 +96,9 @@ export const useUserStore = defineStore("User", () => {
 				id: 2,
 				email: "user@example",
 				name: "Lidia Flores",
+				escola: "ISEP",
+				ocupacao:"Professor",
+				role: "ajudante",
 				password: Math.random().toString(36).slice(4),
 				admin: false,
 			},
@@ -123,6 +124,7 @@ export const useUserStore = defineStore("User", () => {
 	function ChangeUser(UserObj) {
 		let userIndex = Users.value.findIndex((user) => user.id == UserObj.id);
 		Users.value[userIndex] = UserObj;
+		LoggedUser.value = UserObj
 	}
 
 	/**
@@ -157,8 +159,7 @@ export const useUserStore = defineStore("User", () => {
 		},
 	});
 
-
-	function GetUserFunc(userID){
+	function GetUserFunc(userID) {
 		return Users.value.find((user) => user.id == userID);
 	}
 
