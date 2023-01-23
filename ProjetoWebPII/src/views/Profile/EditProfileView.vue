@@ -5,7 +5,6 @@
 	<b-form @click.prevent="ChangeUser">
 		<b-img  blank blank-color="#ccc" width="64" rounded  alt="Foto de perfil"></b-img>
 		
-	<b-form-file id="file-small" size="sm" />
 	<b-form-group label="Nome" inline>
 		<b-input v-model="formData.nome"></b-input>
 	</b-form-group>

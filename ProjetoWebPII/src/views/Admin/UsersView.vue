@@ -13,7 +13,10 @@
 			 >
 			 <template #cell(acoes)="acoes">
 				<b-button @click="userStore.DeleteUser(acoes.item.id)" variant="danger" > Eliminar </b-button>
-			</template>
+			 </template>
+			 <template #cell(escola)="escola">
+				{{ userStore.FindUserProject(escola.item.id)?.nameSchool}}
+			 </template>
 			
 			</b-table>
 			<p>Página {{ UsersTablePage }}</p> 

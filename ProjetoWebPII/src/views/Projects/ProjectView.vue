@@ -28,7 +28,7 @@
 				v-if="UserStore.FindLoggedUserProjectState() == 'Planeamento'"
 				to="/Project/CreateActivity"
 				>Criar Atividade</b-button
-			>
+			> 
 		</div>
 
 		

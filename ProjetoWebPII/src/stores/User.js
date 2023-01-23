@@ -29,9 +29,20 @@ export const useUserStore = defineStore("User", () => {
 			return state;
 				}
 				catch (error) {
-					return
+					alert('Por favor faça login.')
 				}
 
+	}
+
+	function FindUserProject(idUser){
+		
+		let Project = ProjectStore.GetProjects.find((Project) =>
+				Project.collaborators.some(
+					(collaboratorId) => collaboratorId == idUser
+				)
+			)
+	
+			return Project
 	}
 
 	function CheckIfLoggedUserIsLogged() {
@@ -177,6 +188,7 @@ export const useUserStore = defineStore("User", () => {
 	}
 
 	return {
+		
 		GetUserFunc,
 		GetUsers,
 		GetUser,
@@ -189,6 +201,7 @@ export const useUserStore = defineStore("User", () => {
 		LoggedUserGetter,
 		CheckIfLoggedUserIsAdmin,
 		CheckIfLoggedUserIsLogged,
+		FindUserProject,
 		FindLoggedUserProject,
 		FindLoggedUserProjectState,
 	}; // LOGGED USER

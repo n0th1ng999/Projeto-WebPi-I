@@ -173,6 +173,12 @@ export const useActivityStore = defineStore("Activity", () => {
 			.map((Activity) => ({ value: Activity.id, text: Activity.name }));
 	}
 
+	function GetActivitysByProjectID(idProject) {
+		return Activitys.value
+			.filter((Activity) => Activity.idProject == idProject)
+			
+	}
+
 	function GetActivityCountByProjectID(ProjectID){
 		let activityCount = 0
 
@@ -201,6 +207,7 @@ export const useActivityStore = defineStore("Activity", () => {
 	}
 
 	return {
+		GetActivitysByProjectID,
 		GetActivitysByProjectFunction,
 		GetActivitys,
 		GetActivitysByProject,

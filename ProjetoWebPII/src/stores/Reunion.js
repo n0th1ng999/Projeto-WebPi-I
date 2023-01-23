@@ -9,11 +9,17 @@ export const useReunionStore = defineStore("Reunion", () => {
 				id: 1,
 				name: "Reuniao 1",
 				picture: "",
+				leader: 1,
+				collaborators: [1],
+				archived: true
 			},
 			{
 				id: 2,
 				name: "Reuniao 2",
 				picture: "",
+				leader: 2,
+				collaborators: [2],
+				archived: true
 			},
 		])
 	);
@@ -27,8 +33,10 @@ export const useReunionStore = defineStore("Reunion", () => {
 			id: Reunions.value[Reunions.value.length - 1].id + 1,
 			name: ReunionObj.name,
 			picture: ReunionObj.picture,
+			collaborators: ReunionObj.collaborators
 		});
 	}
+
 
 	/**
 	 * @param {Object} ReunionObj id and reunion name
@@ -56,68 +64,18 @@ export const useReunionStore = defineStore("Reunion", () => {
 		return Reunions.value;
 	});
 
-	/** 
-    @type {Object} Reunion
-  */
-	const Reunion = ref();
-	/**
-	 * @type {Function} GetReunion Getter For Specific ReunionID
-	 */
-	const GetReunion = computed({
-		// getter
-		get() {
-			return Reunion.value;
-		},
-		// setter
-		set(ID) {
-			Reunion.value = Reunions.value.find((reunion) => reunion.id == ID);
-		},
-	});
 
-	/**
-	 * Sets Parameter for GetReunion
-	 * @param {number} id Identifier for GetReunion
-	 */
-	function SetReunion(id) {
-		GetReunion.value = id;
-	}
 
-	/** 
-    @type {Object} Reunion
-      */
-	const ArrayOfReunions = ref();
-	/**
-	 * @type {Function} GetReunion Getter For Specific ReunionID
-	 */
-	const GetReunionsByName = computed({
-		// getter
-		get() {
-			return Reunion.value;
-		},
-		// setter
-		set(ReunionName) {
-			ArrayOfReunions.value = Reunions.value.filter((reunion) =>
-				reunion.name.includes(ReunionName)
-			);
-		},
-	});
-
-	/**
-	 * Sets Parameter for GetReunion
-	 * @param {String} ReunionName Identifier for GetReunionsByName
-	 */
-	function GetReunionsByNameSetter(ReunionName) {
-		GetReunionsByName.value = ReunionName;
+	function GetReunionById(id){
+		return Reunions.value.find((reunion) => reunion.id == id)
 	}
 
 	return {
+		GetReunionById,
 		GetReunions,
-		GetReunion,
-		SetReunion,
 		CreateReunion,
 		ChangeReunion,
 		DeleteReunion,
-		GetReunionsByName,
-		GetReunionsByNameSetter,
+	
 	};
 });

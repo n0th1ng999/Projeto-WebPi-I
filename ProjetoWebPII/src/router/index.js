@@ -9,8 +9,8 @@ import LoginView from "../views/LoginView.vue";
 import HomeView from "../views/HomeView.vue";
 
 //Reunion route views
-import ReunionsView from "../views/Reunions/ReunionsView.vue";
-import ReunionView from "../views/Reunions/ReunionView.vue";
+import ReunionssView from "../views/Reunions/ReunionssView.vue";
+import ReunionnView from "../views/Reunions/ReunionnView.vue";
 import CreateReunionView from "../views/Reunions/CreateReunionView.vue";
 
 //Profile Route views
@@ -88,12 +88,12 @@ const router = createRouter({
 		{
 			path: "/Reunions",
 			name: "Reunions",
-			component: ReunionsView,
+			component: ReunionssView,
 		},
 		{
-			path: "/Reunion/:ReunionId",
+			path: "/Reunion/:id",
 			name: "Reunion",
-			component: ReunionView,
+			component: ReunionnView,
 		},
 		{
 			path: "/Reunions/CreateReunion",

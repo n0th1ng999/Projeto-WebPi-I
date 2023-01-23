@@ -2,20 +2,24 @@ import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-export const useMessageStore = defineStore("Message", () => {
+export const useMessageStore = defineStore("Messages", () => {
 	const Messages = ref(
 		useLocalStorage("Messages", [
 			{
 				id: 1,
-				name: "Reuniao 1",
-				description: "Poupança de Água",
+				text: "Poupança de Água",
 				image: "",
+				author: 1,
+				idReunion: 1,
+				date: new Date(),
 			},
 			{
 				id: 2,
-				name: "Reuniao 1",
-				description: "Poupança de Eletricidade",
+				text: "Poupança de Eletricidade",
 				image: "",
+				author: 2,
+				idReunion: 1,
+				date: new Date(),
 			},
 		])
 	);
@@ -26,23 +30,12 @@ export const useMessageStore = defineStore("Message", () => {
 	function CreateMessage(Message) {
 		Messages.value.push({
 			id: Messages.value[Messages.value.length - 1].id + 1,
-			name: Message.name,
-			description: Message.description,
+			text: Message.text,
 			image: Message.image,
-
-			/** NAO ESQUECER PARA APRESENTACAO FRONTEND
-       * 
-      .toLocaleString([],{ 
-        hour12:false,
-        weekday: "long",
-        hour: "2-digit",
-        minute: "2-digit",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-      
-      */
+			idReunion: Message.idMessage,
+			author: Message.author,
+			date: new Date()
+			
 		});
 	}
 
@@ -65,45 +58,25 @@ export const useMessageStore = defineStore("Message", () => {
 		);
 	}
 
-	/**
-	 * @type {Object} GetMessages returns all the Messages
-	 */
+
 	const GetMessages = computed(() => {
 		return Messages.value;
 	});
 
-	/** 
-    @type {Object} Messages
-  */
-	const MessageArray = ref();
-	/**
-	 * @type {Function} GetMessagesByReunion Getter for messages that correspond to idReunion
-	 */
-	const GetMessagesByReunion = computed({
-		// getter
-		get() {
-			return MessageArray.value;
-		},
-		// setter
-		set(idReunion) {
-			MessageArray.value = Messages.value.filter(
-				(Message) => Message.idReunion == idReunion
-			);
-		},
-	});
 
-	/**
-	 * Sets Parameter for GetMessage
-	 * @param {number} idReunion Identifier for GetMessage (id of Reunion)
-	 */
-	function GetMessagesByReunionSetter(idReunion) {
-		GetMessagesByReunion.value = idReunion;
+
+	function GetMessagesByReunion(idReunion){
+		let MessagesArray = Messages.value.filter(
+				Message => Message.idReunion == idReunion)
+
+		return MessagesArray
 	}
+
+	console.log(GetMessagesByReunion(1))
 
 	return {
 		GetMessages,
 		GetMessagesByReunion,
-		GetMessagesByReunionSetter,
 		CreateMessage,
 		ChangeMessage,
 		DeleteMessage,
