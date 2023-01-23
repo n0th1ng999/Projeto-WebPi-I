@@ -7,11 +7,11 @@ export const useThemeStore = defineStore("Theme", () => {
 		useLocalStorage("Themes", [
 			{
 				id: 1,
-				name: "Agricultura Sustentável",
+				name: "Tema 1",
 			},
 			{
 				id: 2,
-				name: "Animais",
+				name: "Tema 2",
 			},
 		])
 	);
@@ -21,7 +21,7 @@ export const useThemeStore = defineStore("Theme", () => {
 	 */
 	function CreateTheme(name) {
 		Themes.value.push({
-			id: Themes.value[Themes.value.length - 1].id++,
+			id: Themes.value[Themes.value.length - 1].id + 1,
 			name: name,
 		});
 	}
@@ -48,37 +48,12 @@ export const useThemeStore = defineStore("Theme", () => {
 		return Themes.value;
 	});
 
-	/** 
-    @type {Object} Theme
-  */
-	const Theme = ref();
 
-	/**
-	 * @type {Function} GetTheme Getter For Specific Theme
-	 */
-	const GetTheme = computed({
-		// getter
-		get() {
-			return Theme.value;
-		},
-		// setter
-		set(ID) {
-			Theme.value = Themes.value.find((theme) => theme.id == ID);
-		},
-	});
-
-	/**
-	 * Sets Parameter for GetTheme
-	 * @param {number} id Identifier for GetTheme
-	 */
-	function SetTheme(id) {
-		GetTheme.value = id;
-	}
 
 	return {
 		GetThemes,
-		GetTheme,
-		SetTheme,
+	
+		
 		CreateTheme,
 		ChangeTheme,
 		DeleteTheme,

@@ -72,7 +72,7 @@ export const useActivityStore = defineStore("Activity", () => {
    */
 	function CreateActivity(Activity) {
 		Activitys.value.push({
-			id: Activitys.value[Activitys.value.length - 1].id++,
+			id: Activitys.value[Activitys.value.length - 1].id + 1,
 			idProject: Activity.idProject,
 			idArea: Activity.idArea,
 			name: Activity.name,
@@ -173,6 +173,33 @@ export const useActivityStore = defineStore("Activity", () => {
 			.map((Activity) => ({ value: Activity.id, text: Activity.name }));
 	}
 
+	function GetActivityCountByProjectID(ProjectID){
+		let activityCount = 0
+
+		Activitys.value.forEach((Activity) => { 
+			if(Activity.idProject == ProjectID){
+				activityCount++
+			}
+		 })
+
+		 return activityCount
+	}
+
+	function GetAreaCountByProjectID(ProjectID){
+		let AreaArray = []
+
+		Activitys.value.forEach((Activity) => {
+			if(Activity.idProject == ProjectID){
+				if(!(AreaArray.find(el => el == Activity.idArea))){
+					AreaArray.push(Activity.idArea)
+				}
+			}
+		 })
+
+		 return AreaArray.length
+
+	}
+
 	return {
 		GetActivitysByProjectFunction,
 		GetActivitys,
@@ -183,5 +210,7 @@ export const useActivityStore = defineStore("Activity", () => {
 		DeleteActivity,
 		GetActivityById,
 		GetActivitysByProjectFunctionAsFormList,
+		GetAreaCountByProjectID,
+		GetActivityCountByProjectID,
 	};
 });

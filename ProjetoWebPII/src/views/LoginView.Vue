@@ -21,9 +21,20 @@ import { useRouter } from "vue-router";
 export default {
 	setup() {
 
+		const userStore = useUserStore()
+
 		const Router = useRouter()
-		if(useUserStore().CheckIfLoggedUserIsLogged()){
-			Router.push("/Project")
+		
+		try{
+			if(userStore.CheckIfLoggedUserIsLogged()){
+				if(userStore.CheckIfLoggedUserIsAdmin() == true){
+					Router.push("/Admin") 
+				}else{
+					Router.push("/Home") 
+				}
+			}
+	}catch{
+
 		}
 
 
@@ -34,7 +45,13 @@ export default {
 
 		function Login(email,login){	
 			try{
-				useUserStore().LogIn(email,login);
+				userStore.LogIn(email,login);
+
+				if(userStore.CheckIfLoggedUserIsAdmin() == true){
+					Router.push("/Admin") 
+				}else{
+					Router.push("/Home") 
+				}
 			}
 			catch{
 				alert('Login failed')

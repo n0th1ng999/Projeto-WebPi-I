@@ -13,7 +13,7 @@
 				<!-- Se o user for admin-->
 				<ul>
 					<li>
-						<RouterLink to="/">Home</RouterLink>
+						<RouterLink to="/Admin">Home</RouterLink>
 					</li>
 					<li>
 						<RouterLink to="/Reunions">Reuniões</RouterLink>
@@ -33,10 +33,11 @@
 					<li>
 						<RouterLink to="">Admin</RouterLink>
 						<Dropdown>
-							<li><RouterLink to="/Project">Projetos</RouterLink></li>
-							<li><RouterLink to="">Utilizadores</RouterLink></li>
-							<li><RouterLink to="">Áreas</RouterLink></li>
-							<li><RouterLink to="">Temas</RouterLink></li>
+							<li><RouterLink to="/Admin/Users">Utilizadores</RouterLink></li>
+							<li><RouterLink to="/Admin/Projects">Projetos</RouterLink></li>
+							<li><RouterLink to="/Admin/Areas">Áreas</RouterLink></li>
+							<li><RouterLink to="/Admin/Levels">Níveis</RouterLink></li>
+							<li><RouterLink to="/Admin/Schools">Escolas</RouterLink></li>
 						</Dropdown>
 					</li>
 				</ul>
@@ -131,14 +132,14 @@
 			</div>
 		</div>
 
-		<div>Sair</div>
+			<div><b-button variant="danger" @click="LogOff">Sair</b-button></div>
 	</div>
 </template>
 
 <script>
 import { useUserStore } from "../stores/User";
 import Dropdown from "./Dropdown.vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 export default {
 	components: {
@@ -147,8 +148,20 @@ export default {
 	},
 	setup() {
 		const userStore = useUserStore();
-		console.log(userStore.FindLoggedUserProjectState());
-		return { userStore };
+		
+		
+		const Router = useRouter()
+		
+		
+		function LogOff() {
+			userStore.LogOff()
+			Router.push("/Login")
+		}
+		
+		
+		
+		return { userStore,LogOff };
+
 	},
 };
 </script>

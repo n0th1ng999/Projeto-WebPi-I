@@ -1,6 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { useThemeStore } from "./Theme.js"
+
 
 export const useProjectStore = defineStore("Project", () => {
 	const Projects = ref(
@@ -9,9 +11,10 @@ export const useProjectStore = defineStore("Project", () => {
 				id: 1,
 				nameSchool: "Escola 1",
 				nameProject: "Agricultura Sustentável",
-				state: "Planeamento",
+				state: "Execução",
 				collaborators: [2],
-				level: "",
+				level: "Bom",
+				theme: 1,
 			},
 			{
 				id: 2,
@@ -19,15 +22,17 @@ export const useProjectStore = defineStore("Project", () => {
 				nameProject: "Agricultura",
 				state: "Em Aprovação",
 				collaborators: [1],
-				level: "",
+				level: "Fraco",
+				theme: 2,
 			},
 			{
 				id: 3,
 				nameSchool: "Escola 3",
 				nameProject: "Sustentável",
 				state: "Planeamento",
-				collaborators: [3],
-				level: "",
+				collaborators: [],
+				level: "Muito Bom",
+				theme: 1,
 			},
 		])
 	);
@@ -38,12 +43,13 @@ export const useProjectStore = defineStore("Project", () => {
 	 */
 	function CreateProject(ProjectObj) {
 		Projects.value.push({
-			id: Projects.value[Projects.value.length - 1].id++,
+			id:Projects.value[Projects.value.length - 1].id + 1,
 			nameSchool: ProjectObj.nameSchool,
-			nameProject: ProjectObj.nameProject,
-			collaborators: ProjectObj.collaborators,
+			nameProject: "",
 			state: "Planeamento",
-			level: "",
+			collaborators: [],
+			level: "Mau",
+			theme: 1,
 		});
 	}
 
@@ -91,6 +97,11 @@ export const useProjectStore = defineStore("Project", () => {
 		},
 	});
 
+
+	function GetProjectFunction(ID) {
+		return Projects.value.find((project) => project.id == ID)
+	}
+
 	/**
 	 * Sets Parameter for GetProject
 	 * @param {number} id Identifier for GetProject
@@ -99,12 +110,22 @@ export const useProjectStore = defineStore("Project", () => {
 		GetProject.value = id;
 	}
 
+	function AddCollaborator(ProjectID,IdUser) {
+		let Project = Projects.value.find((project) => project.id == ProjectID)
+		console.log(Project)
+		if(!Project.collaborators.some((collaboratorID) => collaboratorID == IdUser)){
+			Project.collaborators.push(IdUser)
+		}
+	}
+
 	return {
+		GetProjectFunction,
 		GetProjects,
 		GetProject,
 		SetProject,
 		CreateProject,
 		ChangeProject,
 		DeleteProject,
+		AddCollaborator,
 	};
 });

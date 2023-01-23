@@ -20,8 +20,9 @@ export const useAreaStore = defineStore("Area", () => {
 	 * @param {String} name name of new Area
 	 */
 	function CreateArea(name) {
+		console.log(Areas.value[Areas.value.length - 1].id + 1)
 		Areas.value.push({
-			id: Areas.value[Areas.value.length - 1].id++,
+			id: Areas.value[Areas.value.length - 1].id + 1,
 			name: name,
 		});
 	}

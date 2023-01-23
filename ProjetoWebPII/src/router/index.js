@@ -6,7 +6,7 @@ import LandingPageView from "../views/LandingPageView.vue";
 import LoginView from "../views/LoginView.vue";
 
 //Home Route view
-import Home from "../views/HomeView.vue";
+import HomeView from "../views/HomeView.vue";
 
 //Reunion route views
 import ReunionsView from "../views/Reunions/ReunionsView.vue";
@@ -25,6 +25,20 @@ import ProjectView from "../views/Projects/ProjectView.vue";
 import ExecutionsView from "../views/Projects/ExecutionsView.vue";
 import ActivityView from "../views/Projects/ActivityView.vue";
 import EditActivityView from "../views/Projects/EditActivityView.vue";
+
+//Admin route Views
+import AdminView from "../views/Admin/AdminView.vue";
+import AreasView from "../views/Admin/AreasView.vue";
+import SchoolsView from "../views/Admin/SchoolsView.vue";
+import ProjectsView from "../views/Admin/ProjectsView.vue";
+import UsersView from "../views/Admin/UsersView.vue";
+import LevelsView from "../views/Admin/LevelsView.vue";
+import SingleProjectView from "../views/Admin/SingleProjectView.vue";
+import ProjectExecutionsView from "../views/Admin/ProjectExecutionsView.vue";
+import ProjectActivityView from "../views/Admin/ProjectActivityView.vue";
+
+//404 
+import PageNotFoundView from "../views/PageNotFoundView.vue";
 
 import { useUserStore } from "../stores/User";
 
@@ -59,7 +73,7 @@ const router = createRouter({
 		{
 			path: "/Home",
 			name: "Home",
-			component: Home,
+			component: HomeView,
 		},
 		{
 			path: "/",
@@ -132,7 +146,58 @@ const router = createRouter({
 			name: "Executions",
 			component: ExecutionsView,
 		},
+		{
+			path: "/Admin",
+			name: "Admin",
+			component: AdminView,
+		},
+		{
+			path: "/Admin/Areas",
+			name: "Areas",
+			component: AreasView,
+		},
+		{
+			path: "/Admin/Schools",
+			name: "Schools",
+			component: SchoolsView,
+		},
+		{
+			path: "/Admin/Projects",
+			name: "Projects",
+			component: ProjectsView,
+		},
+		{
+			path: "/Admin/Users",
+			name: "Users",
+			component: UsersView,
+		},
+		{
+			path: "/Admin/Levels",
+			name: "Levels",
+			component: LevelsView,
+		},
+		{
+			path: "/Admin/Project/:id",
+			name: "SingleProjectView",
+			component: SingleProjectView,
+		},
+		{
+			path: "/Admin/Project/:id/Executions",
+			name: "ProjectExecutionsView",
+			component: ProjectExecutionsView,
+		},
+		{
+			path: "/Admin/Project/:id/Activity/:activityId",
+			name: "ProjectActivityView",
+			component: ProjectActivityView,
+		},
+		{ path: '/:pathMatch(.*)*', 
+			name: 'Page Not Found', 
+			component: PageNotFoundView },
 	],
+	
 });
+
+
 
 export default router;

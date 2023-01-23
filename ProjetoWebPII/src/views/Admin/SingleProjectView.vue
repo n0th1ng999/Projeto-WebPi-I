@@ -6,8 +6,8 @@
 		<br>
 		<b-badge>{{
                   LevelsStore.CheckLevel(
-                  ActivityStore.GetActivityCountByProjectID(UserStore.FindLoggedUserProject().id)
-                  ,ActivityStore.GetAreaCountByProjectID(UserStore.FindLoggedUserProject().id)).name}}
+                  ActivityStore.GetActivityCountByProjectID($route.params.id)
+                  ,ActivityStore.GetAreaCountByProjectID($route.params.id)).name}}
 		</b-badge>
 
 		<b-table :fields="fields" :items="ActivitysOfProject">
@@ -17,27 +17,15 @@
 		>
 
 		<div>
+
 			<b-button
 				variant = "success"
-				v-if="UserStore.FindLoggedUserProjectState() == 'Execução'"
-				to="/Project/Executions"
+				v-if="Project.state == 'Execução'"
+				:to="`/Admin/Project/${Route.params.id}/Executions`"
 				>Execuções de Atividades</b-button
 			>
-			<b-button
-				variant = "success"
-				v-if="UserStore.FindLoggedUserProjectState() == 'Planeamento'"
-				to="/Project/CreateActivity"
-				>Criar Atividade</b-button
-			>
+
 		</div>
-
-		
-
-		
-		
-	
-		
-
 
 		<h3>Colaboradores</h3>
 		<table>
@@ -48,31 +36,31 @@
 		<tbody>
 			<tr v-for="(CollaboratorID, index) of ProjectCollaborators" :key="index">
 				<td>{{ UserStore.GetUserFunc(CollaboratorID).email }}</td><td>{{ UserStore.GetUserFunc(CollaboratorID).name }}</td><td>
-					<b-button variant="secondary" :to="'Profile/'+UserStore.GetUserFunc(CollaboratorID).id">Ver Perfil</b-button></td>
+					<b-button variant="secondary" :to="'/Profile/'+UserStore.GetUserFunc(CollaboratorID).id">Ver Perfil</b-button></td>
 			</tr>
 		</tbody>
 		</table>
 
-		
-
-		<br>
-
-
-		<br>
-		<div>
-			<b-button
-				v-if="Project.state == 'Planeamento'" 
-				@click="Project.state = 'Aprovacao'">
-				Pedir Aprovação
+		<b-button
+				variant = "success"
+				v-if="Project.state == 'Em Aprovação'"
+				@click="Project.state = 'Execução'"
+				>Aprovar
 			</b-button>
-		</div>
-
+			
+			<b-button
+				variant = "danger"
+				v-if="Project.state == 'Em Aprovação'"
+				@click="Project.state = 'Planeamento'"
+				>Reprovar
+			</b-button>
+			
 	</div>
 </template>
 
 <script>
 import { ref, watch, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../../stores/User";
 import { useActivityStore } from "../../stores/Activity";
 
@@ -83,12 +71,11 @@ import { useLevelsStore } from "../../stores/levels";
 export default {
 	components: {},
 	setup() {
-
+		const LevelsStore = useLevelsStore()
 		const Router = useRouter();
+        const Route = useRoute();
 
 		const ActivityStore = useActivityStore();
-
-		const LevelsStore = useLevelsStore()
 		
 		const ProjectStore = useProjectStore();
 		
@@ -96,7 +83,7 @@ export default {
 		
 		const fields = ref(["id", "name", "Ações"]);
 		
-		const Project = ref(UserStore.FindLoggedUserProject());
+		const Project = ref(ProjectStore.GetProjectFunction(Route.params.id));
 		
 		let ActivitysOfProject = ActivityStore.GetActivitysByProjectFunction(
 			Project.value.id
@@ -110,7 +97,7 @@ export default {
 			const ProjectCollaborators = ref(Project.value.collaborators);
 			
 		function GoToActivityView(ActivityId) {
-			Router.push({ path: `/Project/Activity/${ActivityId}` });
+			Router.push({ path: `/Admin/Project/${Route.params.id}/Activity/${ActivityId}` });
 		}
 
 		const ExecutionStore =  useExecutionStore()
@@ -123,6 +110,7 @@ export default {
 		
 
 		return {
+			ProjectStore,
 			LevelsStore,
 			UserStore,
 			Project,
@@ -132,6 +120,7 @@ export default {
 			GoToActivityView,
 			ProjectExecutions,
 			ActivityStore,
+            Route
 			
 		};
 	},

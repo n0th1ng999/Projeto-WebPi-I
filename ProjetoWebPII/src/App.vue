@@ -12,7 +12,7 @@ export default {
 	setup() {
 		const route = useRoute();
 
-		const RoutesThatDontNeedSideNav = ["/", "/login"];
+		const RoutesThatDontNeedSideNav = ["/", "/Login"];
 
 		watch(route, async (newRoute, OldRoute) => {
 			if (

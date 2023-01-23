@@ -19,13 +19,19 @@ export const useUserStore = defineStore("User", () => {
 	}
 
 	function FindLoggedUserProjectState() {
-		let state = ProjectStore.GetProjects.find((Project) =>
-			Project.collaborators.some(
-				(collaboratorId) => collaboratorId == LoggedUser.value.id
-			)
-		).state;
+		try {
+			let state = ProjectStore.GetProjects.find((Project) =>
+				Project.collaborators.some(
+					(collaboratorId) => collaboratorId == LoggedUser.value.id
+				)
+			).state;
+			 
+			return state;
+				}
+				catch (error) {
+					return
+				}
 
-		return state;
 	}
 
 	function CheckIfLoggedUserIsLogged() {
@@ -77,7 +83,10 @@ export const useUserStore = defineStore("User", () => {
 	}
 
 	const LoggedUserGetter = computed(() => {
-		return LoggedUser.value;
+		try {return LoggedUser.value;
+		}catch(e) {
+			return null
+		}
 	});
 
 	const Users = ref(
@@ -110,12 +119,8 @@ export const useUserStore = defineStore("User", () => {
 	 * @param {Object} UserObj name of new user
 	 */
 	function CreateUser(UserObj) {
-		Users.value.push({
-			id: Users.value[Users.value.length - 1].id++,
-			name: UserObj.name,
-			email: UserObj.email,
-			password: Math.random().toString(36).slice(4),
-		});
+		UserObj.id = Users.value[Users.value.length - 1].id + 1
+		Users.value.push(UserObj);
 	}
 
 	/**

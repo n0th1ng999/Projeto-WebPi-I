@@ -25,7 +25,7 @@ export const useMessageStore = defineStore("Message", () => {
 	 */
 	function CreateMessage(Message) {
 		Messages.value.push({
-			id: Messages.value[Messages.value.length - 1].id++,
+			id: Messages.value[Messages.value.length - 1].id + 1,
 			name: Message.name,
 			description: Message.description,
 			image: Message.image,

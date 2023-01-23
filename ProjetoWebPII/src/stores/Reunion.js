@@ -24,7 +24,7 @@ export const useReunionStore = defineStore("Reunion", () => {
 	 */
 	function CreateReunion(ReunionObj) {
 		Reunions.value.push({
-			id: Reunions.value[Reunions.value.length - 1].id++,
+			id: Reunions.value[Reunions.value.length - 1].id + 1,
 			name: ReunionObj.name,
 			picture: ReunionObj.picture,
 		});
