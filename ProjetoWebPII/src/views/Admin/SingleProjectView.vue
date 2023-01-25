@@ -1,30 +1,32 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto ">
 		<h1>Página do Projeto</h1>
 		<br>
-		<h2>{{ Project.nameProject }} || {{ Project.nameSchool }} || {{ Project.state}}</h2>
+		<h2>{{ Project.nameProject }} || {{ Project.state}}</h2>
 		<br>
+		<b-badge>{{ ThemeStore.GetThemeId(ProjectStore.GetProjectFunction($route.params.id).theme).name}}</b-badge>
+		<b-badge>{{ ProjectStore.GetProjectFunction($route.params.id).nameSchool}}</b-badge>
 		<b-badge>{{
-                  LevelsStore.CheckLevel(
-                  ActivityStore.GetActivityCountByProjectID($route.params.id)
-                  ,ActivityStore.GetAreaCountByProjectID($route.params.id)).name}}
+			LevelsStore.CheckLevel(
+				ActivityStore.GetActivityCountByProjectID($route.params.id)
+				,ActivityStore.GetAreaCountByProjectID($route.params.id)).name}}
 		</b-badge>
+		<b-badge>{{ Project.state  }}</b-badge>
+		
 
 		<b-table :fields="fields" :items="ActivitysOfProject">
 			<template #cell(Ações)="row">
 				<b-button @click="GoToActivityView(row.item.id)">Detalhes</b-button>
-			</template></b-table
-		>
+			</template>
+		</b-table>
 
 		<div>
-
 			<b-button
 				variant = "success"
 				v-if="Project.state == 'Execução'"
 				:to="`/Admin/Project/${Route.params.id}/Executions`"
 				>Execuções de Atividades</b-button
 			>
-
 		</div>
 
 		<h3>Colaboradores</h3>
@@ -42,18 +44,18 @@
 		</table>
 
 		<b-button
-				variant = "success"
-				v-if="Project.state == 'Em Aprovação'"
-				@click="Project.state = 'Execução'"
-				>Aprovar
-			</b-button>
+			variant = "success"
+			v-if="Project.state == 'Em Aprovação'"
+			@click="Project.state = 'Execução'"
+			>Aprovar
+		</b-button>
 			
-			<b-button
-				variant = "danger"
-				v-if="Project.state == 'Em Aprovação'"
-				@click="Project.state = 'Planeamento'"
-				>Reprovar
-			</b-button>
+		<b-button
+			variant = "danger"
+			v-if="Project.state == 'Em Aprovação'"
+			@click="Project.state = 'Planeamento'"
+			>Reprovar
+		</b-button>
 			
 	</div>
 </template>
@@ -67,19 +69,28 @@ import { useActivityStore } from "../../stores/Activity";
 import { useProjectStore } from "../../stores/Project";
 import { useExecutionStore } from "../../stores/Execution";
 import { useLevelsStore } from "../../stores/levels";
+import { useThemeStore } from "../../stores/Theme";
 
 export default {
 	components: {},
 	setup() {
 		const LevelsStore = useLevelsStore()
-		const Router = useRouter();
+		const Router = useRouter()
+		const UserStore = useUserStore()
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
+
         const Route = useRoute();
+
+		const ThemeStore = useThemeStore()
 
 		const ActivityStore = useActivityStore();
 		
 		const ProjectStore = useProjectStore();
-		
-		const UserStore = useUserStore();
+
 		
 		const fields = ref(["id", "name", "Ações"]);
 		
@@ -110,6 +121,7 @@ export default {
 		
 
 		return {
+			ThemeStore,
 			ProjectStore,
 			LevelsStore,
 			UserStore,

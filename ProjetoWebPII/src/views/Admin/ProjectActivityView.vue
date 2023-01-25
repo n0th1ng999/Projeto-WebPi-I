@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 
 
 		<h2>Activity view</h2>
@@ -43,9 +43,18 @@ import { useAreaStore } from "../../stores/Area";
 export default {
 	setup() {
 		//<RouterLink :to="`Project/EditActivity/${Route.params.id}`"> Edit The view </RouterLink>
-
+		const UserStore = useUserStore()
 		const Route = useRoute();
-		const Router = useRouter();
+		const Router = useRouter()
+
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
+
+
+		
 
 		const ActivityStore = useActivityStore();
 		const AreaStore = useAreaStore()

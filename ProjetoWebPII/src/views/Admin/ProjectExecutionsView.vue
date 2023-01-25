@@ -1,29 +1,42 @@
 
 
 <template>
-	<div>
-		<div>
-			<RouterLink :to="`/Admin/Project/${Route.params.id}`">Voltar</RouterLink>
-		</div>
-
-		Ações feitas
-		<div v-for="Activity in ActivitiesOfProject" :key="Activity.id">
-			
-				{{ Activity.id }} || {{ Activity.name }} ||
-				{{ AreaStore.GetAreaById(Activity.idArea).name }}
-			<Dropdown>
-
-				<div
-				v-for="Execution in ExecutionStore.GetExecutionByActivityFunction(
-					Activity.id
-					)"
-				
-				>
-				- {{ Execution.id }} || {{ Execution.description }}
-				</div>
-			</Dropdown>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		
-		</div>	
+		<h2 class="m-5">
+			Atividades Executadas
+			
+		</h2>
+		<table class="table b-table bg-white mx-5 w-75 table-bordered ">
+			<tr>
+				<th>Atividade</th>
+			</tr>
+			<template v-for="Activity in ActivitiesOfProject" :key="Activity.id">
+				
+				<tr >
+					<td>
+						{{ Activity.id }} || {{ Activity.name }} ||
+						{{ AreaStore.GetAreaById(Activity.idArea).name }}
+						
+					</td>
+				</tr>
+				<tr>
+					<th>Execuções</th>
+				</tr>
+				<tr v-for="Execution in ExecutionStore.GetExecutionByActivityFunction(Activity.id)">
+					<td>
+						<img :src="Execution.image" :alt="Execution.image"> {{ Execution.description }} 
+						<b-button :to="`/Project/EditExecution/${Execution.id }`" variant="success"> Editar </b-button>
+						<b-button variant="danger" @click="ExecutionStore.DeleteExecution(Execution.id)"> Eliminar</b-button>
+					</td>
+				</tr>
+			</template>
+		</table>
+		
+		
+		<div class="mx-5">
+			<b-button :to="`/Admin/Project/${Route.params.id}`">Voltar</b-button>
+		</div>
 		
 
 		
@@ -48,9 +61,15 @@ export default {
 	},
 	setup() {
 		const Router = useRouter()
+		const UserStore = useUserStore()
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
 		const Route = useRoute()
 		const Project = useProjectStore()
-		const UserStore = useUserStore();
+
 		const ExecutionStore = useExecutionStore();
 		const ActivityStore = useActivityStore();
 		const AreaStore = useAreaStore();

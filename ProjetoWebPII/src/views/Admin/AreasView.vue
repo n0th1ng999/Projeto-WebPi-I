@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100  backgroundPages overflow-auto">
 		<div>
 			<!-- AREAS -->
 			<b-table 
@@ -59,7 +59,9 @@
 </template>
 
 <script>
+import { useUserStore } from '../../stores/User';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useAreaStore } from '../../stores/Area';
 import { useThemeStore } from '../../stores/Theme';
 
@@ -68,6 +70,14 @@ export default {
 	setup() {
 		const AreaStore = useAreaStore()
 		const ThemeStore = useThemeStore()
+		const Router = useRouter()
+		const UserStore = useUserStore()
+
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
 
 
 		const fields = [

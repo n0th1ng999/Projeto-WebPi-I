@@ -32,7 +32,7 @@ export const useMessageStore = defineStore("Messages", () => {
 			id: Messages.value[Messages.value.length - 1].id + 1,
 			text: Message.text,
 			image: Message.image,
-			idReunion: Message.idMessage,
+			idReunion: Message.idReunion,
 			author: Message.author,
 			date: new Date()
 			
@@ -72,9 +72,93 @@ export const useMessageStore = defineStore("Messages", () => {
 		return MessagesArray
 	}
 
-	console.log(GetMessagesByReunion(1))
+	function GetMostRecentMessagesByReunion(idReunion){
+		
+		return Messages.value.reduce((prev, current) => {
+			if(prev.idReunion !== idReunion) prev = current;
+			if(current.idReunion === idReunion && (new Date(prev.date) < new Date(current.date))) prev = current;
+			return prev;
+		});
+
+		
+	}
+
+	function Get3MostRecentMessages(){
+		let sortedMessages = Messages.value.sort((a, b) => new Date(b.date) - new Date(a.date));
+		let recentMessages = []
+		let idReunions = []
+		for(let i = 0; i < sortedMessages.length; i++) {
+			if(!idReunions.includes(sortedMessages[i].idReunion)) {
+				recentMessages.push(sortedMessages[i])
+				idReunions.push(sortedMessages[i].idReunion)
+			}
+			if(recentMessages.length === 3) break;
+		}
+
+		return recentMessages;
+	}
+
+	function getRecentMessagesByAuthor(author) {
+		// filter messages by author
+		const filteredMessages = Messages.value.filter(m => m.author === author);
+		
+		// create a Set to store unique idReunion
+		const idReunionSet = new Set();
+	  
+		// sort messages by date in descending order
+		const sortedMessages = filteredMessages.sort((a, b) => b.date - a.date);
+	  
+		// use the reduce method to iterate over the sorted messages
+		// and keep track of the 3 most recent messages with unique idReunion
+		const recentMessages = sortedMessages.reduce((acc, m) => {
+		  if (!idReunionSet.has(m.idReunion)) {
+			idReunionSet.add(m.idReunion);
+			acc.push(m);
+		  }
+		  if (acc.length >= 3) {
+			return acc;
+		  }
+		  return acc;
+		}, []);
+	  
+		return recentMessages;
+	  }
+	  
+	  function getRecentMessagesByAuthors(authors) {
+		// create a Set to store unique idReunion
+		const idReunionSet = new Set();
+		let recentMessages = []
+		// iterate over authors
+		for (let i = 0; i < authors.length; i++) {
+			// filter messages by author
+			const filteredMessages = Messages.value.filter(m => m.author === authors[i]);
+			// sort messages by date in descending order
+			const sortedMessages = filteredMessages.sort((a, b) => b.date - a.date);
+			// use the reduce method to iterate over the sorted messages
+			// and keep track of the 3 most recent messages with unique idReunion
+			recentMessages = recentMessages.concat(sortedMessages.reduce((acc, m) => {
+			if (!idReunionSet.has(m.idReunion)) {
+				idReunionSet.add(m.idReunion);
+				acc.push(m);
+			}
+			if (acc.length >= 3) {
+				return acc;
+			}
+			return acc;
+			}, []));
+		}
+		recentMessages = recentMessages.sort((a, b) => b.date - a.date);
+		return recentMessages.slice(0,3);
+	}
+
+	
+
 
 	return {
+		getRecentMessagesByAuthors,
+		getRecentMessagesByAuthor,
+		Get3MostRecentMessages,
+		GetMostRecentMessagesByReunion,
 		GetMessages,
 		GetMessagesByReunion,
 		CreateMessage,

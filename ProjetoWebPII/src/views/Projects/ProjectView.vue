@@ -1,22 +1,41 @@
 <template>
-	<div>
-		<h1>Página do Projeto</h1>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
+		<h1 class="mt-5 mx-5">Página do Projeto</h1>
 		<br>
-		<h2>{{ Project.nameProject }} || {{ Project.nameSchool }} || {{ Project.state}}</h2>
+		
+		<h2 class="mx-5">
+				<b-input v-if="editName" v-model="UserStore.FindLoggedUserProject().nameProject"></b-input>
+				<span v-else>Projeto {{ UserStore.FindLoggedUserProject().nameProject }}</span>
+				
+				<template v-if="UserStore.FindLoggedUserProject().state == 'Planeamento'" >
+				<b-button variant="primary" v-if="UserStore.LoggedUserGetter.funcao ='coordenador'" @click="editName = !editName">
+				<template v-if="!editName">Editar Titulo</template>
+				<template v-else >Fechar</template>
+				</b-button>
+				</template>
+		</h2>
 		<br>
-		<b-badge>{{
-                  LevelsStore.CheckLevel(
-                  ActivityStore.GetActivityCountByProjectID(UserStore.FindLoggedUserProject().id)
-                  ,ActivityStore.GetAreaCountByProjectID(UserStore.FindLoggedUserProject().id)).name}}
-		</b-badge>
+			<p class="mx-5">
+			<b-badge pill >{{ ThemeStore.GetThemeId(UserStore.FindLoggedUserProject().theme).name}}</b-badge>
+			<b-badge pill >{{ UserStore.FindLoggedUserProject().nameSchool}}</b-badge>
+			<b-badge pill >{{
+				LevelsStore.CheckLevel(
+				ActivityStore.GetActivityCountByProjectID(UserStore.FindLoggedUserProject().id)
+				,ActivityStore.GetAreaCountByProjectID(UserStore.FindLoggedUserProject().id)).name}}
+			</b-badge></p>
+			
+			<div v-if="UserStore.FindLoggedUserProject().state == 'Planeamento'" >
+			  <b-select  v-if="editTheme" v-model="UserStore.FindLoggedUserProject().theme" :options="ThemeStore.GetThemes.map(theme => ({value: theme.id, text: theme.name}))"></b-select>
+			  <b-button v-if="!editTheme" @click="editTheme = !editTheme" >Escolher Tema</b-button>
+			  <b-button v-if="editTheme" @click="editTheme = !editTheme" >Fechar</b-button>
+		  	</div>
 
-		<b-table :fields="fields" :items="ActivitysOfProject">
+		<b-table class="table b-table bg-white mx-5 w-75 table-bordered "  :fields="fields" :items="ActivitysOfProject">
 			<template #cell(Ações)="row">
 				<b-button @click="GoToActivityView(row.item.id)">Detalhes</b-button>
-			</template></b-table
-		>
+			</template></b-table		>
 
-		<div>
+		<div class="mx-5">
 			<b-button
 				variant = "success"
 				v-if="UserStore.FindLoggedUserProjectState() == 'Execução'"
@@ -39,8 +58,8 @@
 		
 
 
-		<h3>Colaboradores</h3>
-		<table>
+		<h3 class="mt-5 mx-5">Colaboradores</h3>
+		<table class="table b-table bg-white mx-5 w-75 table-bordered ">
 		<thead>
 			<tr><th>Email</th><th>Nome</th><th>Ações</th></tr>
 		</thead>	
@@ -59,10 +78,10 @@
 
 
 		<br>
-		<div>
+		<div v-if="UserStore.LoggedUserGetter.role == 'Coordenador'">
 			<b-button
 				v-if="Project.state == 'Planeamento'" 
-				@click="Project.state = 'Aprovacao'">
+				@click="Project.state = 'Em Aprovação'">
 				Pedir Aprovação
 			</b-button>
 		</div>
@@ -79,12 +98,22 @@ import { useActivityStore } from "../../stores/Activity";
 import { useProjectStore } from "../../stores/Project";
 import { useExecutionStore } from "../../stores/Execution";
 import { useLevelsStore } from "../../stores/levels";
+import { useThemeStore } from "../../stores/Theme";
 
 export default {
 	components: {},
 	setup() {
 
+		const editName = ref(false)
+		const editTheme = ref(false)
+
+		const ThemeStore = useThemeStore()
+
 		const Router = useRouter();
+		const UserStore = useUserStore();
+		if(UserStore.LoggedUserGetter.admin == true) {
+          Router.push('/admin')
+        }
 
 		const ActivityStore = useActivityStore();
 
@@ -92,7 +121,6 @@ export default {
 		
 		const ProjectStore = useProjectStore();
 		
-		const UserStore = useUserStore();
 		
 		const fields = ref(["id", "name", "Ações"]);
 		
@@ -123,6 +151,9 @@ export default {
 		
 
 		return {
+			editName,
+			editTheme,
+			ThemeStore,
 			LevelsStore,
 			UserStore,
 			Project,

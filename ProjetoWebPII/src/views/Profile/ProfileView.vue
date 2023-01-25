@@ -1,6 +1,6 @@
 <template>
 
-	<div>
+	<div class="w-100 vh-100 backgroundPages ">
 		<h1>Página de Perfil</h1>
 		
 		<h3>

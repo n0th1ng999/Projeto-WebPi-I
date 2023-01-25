@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <h1>404 PAGE NOT FOUND</h1>
+  <div class="w-100 vh-100 backgroundPages">
+    <h1>404 Página não encontrada!!</h1>
   </div>
 </template>
 

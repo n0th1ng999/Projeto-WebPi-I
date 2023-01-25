@@ -1,5 +1,5 @@
 <template>
-	<div class="m-5">
+	<div class="w-100 vh-100 backgroundPages overflow-auto ">
 		<b-button type="button" variant="clear" @click="ReturnToActivityPage()" >⬅️</b-button>
 
 		<b-form @submit="UpdateActivityOnSubmit">
@@ -67,11 +67,14 @@ export default {
 	},
 	setup() {
 		
-		const userStore = useUserStore();
+		const UserStore = useUserStore();
 		const activityStore = useActivityStore();
 		const areaStore = useAreaStore();
 		const Route = useRoute();
-		const Router = useRouter()
+		const Router = useRouter();
+		if(UserStore.LoggedUserGetter.admin == true) {
+          Router.push('/admin')
+        }
 
 		const Actvity = activityStore.GetActivityById(Route.params.id);
 
@@ -100,7 +103,7 @@ export default {
 			console.log(formdata);
 			
              activityStore.ChangeActivity({
-				 idProject: userStore.FindLoggedUserProject().id,
+				 idProject: UserStore.FindLoggedUserProject().id,
 				 id : Actvity.id,
                  idArea : formdata.idArea,
                  name : formdata.name,

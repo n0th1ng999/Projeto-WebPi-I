@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-100 vh-100 backgroundPages overflow-auto">
         <template
         v-for="Reunion in ReunionStore.GetReunions"
          :key="Reunion.id">
@@ -8,11 +8,12 @@
             <b-button :to="'/Reunion/'+Reunion.id">Ver</b-button>
         </div>
         </template> 
-        <b-button to="/Reunions/CreateReunion">Criar Reunião</b-button>
+        <b-button v-if="CreateReunionBtn" to="/Reunions/CreateReunion">Criar Reunião</b-button>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useReunionStore } from '../../stores/Reunion.js'
 import { useUserStore } from "../../stores/User.js";
 
@@ -21,8 +22,13 @@ export default {
         const ReunionStore = useReunionStore()
         const userStore = useUserStore()
 
+        let CreateReunionBtn = true
+        
+        if(userStore.LoggedUserGetter.role != 'Coordenador' && userStore.LoggedUserGetter.admin != true){
+            CreateReunionBtn = false
+        }
 
-        return {ReunionStore,userStore}
+        return {ReunionStore,userStore,CreateReunionBtn}
     }
 }
 </script>

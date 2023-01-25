@@ -48,9 +48,14 @@ export const useThemeStore = defineStore("Theme", () => {
 		return Themes.value;
 	});
 
+	function GetThemeId(idTheme) {
+
+		return Themes.value.find(theme => theme.id == idTheme)
+	}
 
 
 	return {
+		GetThemeId,
 		GetThemes,
 	
 		

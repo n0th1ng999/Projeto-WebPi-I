@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		<b-table 
 		:fields="fields"
 		:items="items">
@@ -19,10 +19,10 @@
 				<b-input  v-model="formData.name"></b-input>
 			</b-form-group>
 			<b-form-group label="Minimo De Atividades">
-				<b-input type="number" v-model="formData.params.MinActivities"></b-input>
+				<b-input :min="0" type="number" v-model="formData.params.MinActivities"></b-input>
 			</b-form-group>
 			<b-form-group label="Minimo De Areas">
-				<b-input type="number" v-model="formData.params.MinAreas"></b-input>
+				<b-input  :min="0" type="number" v-model="formData.params.MinAreas"></b-input>
 			</b-form-group>
 			<b-button type="submit" class="mt-2" variant="success" >Criar</b-button>
 		</b-form>
@@ -37,10 +37,10 @@
 				<b-input v-model="LevelToEdit.name"></b-input>
 			</b-form-group>
 			<b-form-group label="Minimo De Atividades">
-				<b-input v-model="LevelToEdit.params.MinActivities"></b-input>
+				<b-input  :min="0" v-model="LevelToEdit.params.MinActivities"></b-input>
 			</b-form-group>
 			<b-form-group label="Minimo De Areas">
-				<b-input v-model="LevelToEdit.params.MinAreas"></b-input>
+				<b-input  :min="0" v-model="LevelToEdit.params.MinAreas"></b-input>
 			</b-form-group>
 			<b-button type="submit" class="mt-2" variant="success"  @click="modalShow = !modalShow">Editar</b-button>
 			<b-button class="mt-2" variant="secondary"  @click="modalShow = !modalShow">Fechar</b-button>
@@ -52,14 +52,21 @@
 
 <script>
 import { ref , reactive} from 'vue';
+import { useRouter } from 'vue-router';
 import { useLevelsStore } from '../../stores/levels';
-
+import { useUserStore } from '../../stores/User';
 
 export default {
 	
 	setup() {
 		const LevelStore = useLevelsStore()
+		const Router = useRouter()
+		const UserStore = useUserStore()
+		if(UserStore.LoggedUserGetter?.admin == false){
 
+		Router.push('/Project')
+
+		}
 
 		const items = ref(LevelStore.GetLevels().map(el => ({id: el.id, name: el.name, minActivites: el.params.MinActivities , MinAreas: el.params.MinAreas})))
 		const fields = ['id','name',{key: 'MinAreas'},{key: 'minActivites'},'acoes']

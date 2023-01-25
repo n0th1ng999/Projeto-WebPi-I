@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		<h2>Activity view</h2>
 		<h3>Nome: {{ Activity.name }}</h3>
 
@@ -29,7 +29,7 @@
 
 		<br>
 		<b-button
-			v-if="userStore.FindLoggedUserProjectState() == 'Planeamento'"
+			v-if="UserStore.FindLoggedUserProjectState() == 'Planeamento'"
 			@click="GoToEditActivity"
 			variant="success"
 			>Editar a Atividade</b-button
@@ -48,10 +48,13 @@ import { useAreaStore } from "../../stores/Area";
 export default {
 	setup() {
 		//<RouterLink :to="`Project/EditActivity/${Route.params.id}`"> Edit The view </RouterLink>
-
+		const UserStore = useUserStore()
 		const Route = useRoute();
 		const Router = useRouter();
-		const userStore = useUserStore();
+		if(UserStore.LoggedUserGetter.admin == true) {
+          Router.push('/admin')
+        }
+
 		const ActivityStore = useActivityStore();
 		const AreaStore = useAreaStore()
 
@@ -66,7 +69,7 @@ export default {
 		}
 
 
-		return { Activity, GoToEditActivity, userStore, AreaStore , GoToProjectView };
+		return { Activity, GoToEditActivity, UserStore, AreaStore , GoToProjectView };
 	},
 };
 </script>

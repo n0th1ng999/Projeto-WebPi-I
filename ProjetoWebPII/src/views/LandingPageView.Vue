@@ -1,5 +1,5 @@
 <template>
-	<div class="w-100 colun">
+	<div class="w-100 vh-100 column BackgroundLandingPage " >
 		<div
 			class="w-100 d-flex justify-content-end align-items-center position-sticky"
 		>
@@ -10,17 +10,20 @@
 				:style="'left: 50px; z-index:990'"
 			/>
 			<b-navbar variant="light" class="p-3 my-5 w-90 pl-5">
-				<b-nav>
-					<b-nav-item>item 1</b-nav-item>
-					<b-nav-item>item 2</b-nav-item>
-					<b-nav-item>item 3</b-nav-item>
-					<b-nav-item>item 4</b-nav-item>
-				</b-nav>
+				
 
-				<b-button to="/Login"> Login </b-button>
+				<b-button class="" to="/Login"> Login </b-button>
 			</b-navbar>
 		</div>
-		<div class="w-100 vh-100"></div>
+
+		<div class="text-white" style="margin:200px; max-width: 400px;">
+			<h1>Bem vindo ao Owly!</h1>
+			<h3 class="RubikFont">Owly é uma aplicação que permite a gestão de uma forma eficaz e interativa do Projeto Eco-Escolas.</h3>
+			<b-button  to="/Login" >Fazer Login</b-button>
+		</div>
+		<div class="w-100 ">
+
+		</div>
 	</div>
 </template>
 

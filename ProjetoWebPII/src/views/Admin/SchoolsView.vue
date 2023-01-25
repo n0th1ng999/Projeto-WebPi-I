@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 	<b-table :fields="fields" :items="ProjectStore.GetProjects">
 		<template #cell(acoes)="row">
 			<b-button variant="danger" @click="DeleteProject(row.item.id)">Eliminar</b-button>
@@ -19,6 +19,7 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useActivityStore } from '../../stores/Activity';
 import { useExecutionStore } from '../../stores/Execution';
 import { useProjectStore } from '../../stores/Project';
@@ -26,10 +27,17 @@ import { useUserStore } from '../../stores/User';
 
 export default {
 	setup() {
+		const Router = useRouter()
+		const UserStore = useUserStore()
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
+
 		const ProjectStore = useProjectStore()
 		const ActivityStore = useActivityStore()
 		const ExecutionStore = useExecutionStore()
-		const UserStore = useUserStore()
 
 		const name = ref()
 

@@ -1,45 +1,47 @@
 <template>
-	<b-form @submit="CreateReunion" >
-		<b-form-group label="Nome Da Reunião">
-			<b-input required v-model="name">
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
+		<b-form @submit="CreateReunion" >
+			<b-form-group label="Nome Da Reunião">
+				<b-input required v-model="name">
 
-			</b-input>
-		</b-form-group>
-
-		<b-form-group  label="Filtrar Utilizadores">
-			<b-input @input="FilterUserList" v-model="filterForUsers">
-
-			</b-input>
-		</b-form-group>
-		<b-form-group  label="Selecionar Utilizador">
-			<b-select v-model="userID" :options="ListOfUsers"></b-select>
-	
-				<b-button @click="addUser()" variant="primary" :disabled="
-				ListOfUsersToAdd.some(user => user == userID) ">adicionar</b-button>
-				
+				</b-input>
 			</b-form-group>
-			<div>
-			<p>Utilizadores Adiconados</p>
-			<p v-if="ListOfUsersToAdd.length == 0">Sem utilizadores Adicionados</p>
-			<div v-else v-for="item in ListOfUsersToAdd" :key="item.id">
-				{{ item.name }} <b-button @click="deleteUser" variant="danger">Eliminar</b-button>
-			</div>
-			</div>
-		<b-form-group>
 
-		</b-form-group >
-		<b-form-group label="Foto da Reunião">
-			<b-form-file
-				v-model="file"
-				:state="Boolean(file)"
-				accept="image/jpeg, image/png, image/gif"
-				placeholder="Carregue uma foto"
-				drop-placeholder="Carregue uma foto"
-				></b-form-file>
-		</b-form-group>
+			<b-form-group  label="Filtrar Utilizadores">
+				<b-input @input="FilterUserList" v-model="filterForUsers">
 
-		<b-button variant="success" type="submit">Criar Reunião</b-button>
-	</b-form>
+				</b-input>
+			</b-form-group>
+			<b-form-group  label="Selecionar Utilizador">
+				<b-select v-model="userID" :options="ListOfUsers"></b-select>
+		
+					<b-button @click="addUser()" variant="primary" :disabled="
+					ListOfUsersToAdd.some(user => user == userID) ">adicionar</b-button>
+					
+				</b-form-group>
+				<div>
+				<p>Utilizadores Adiconados</p>
+				<p v-if="ListOfUsersToAdd.length == 0">Sem utilizadores Adicionados</p>
+				<div v-else v-for="item in ListOfUsersToAdd" :key="item.id">
+					{{ item.name }} <b-button @click="deleteUser" variant="danger">Eliminar</b-button>
+				</div>
+				</div>
+			<b-form-group>
+
+			</b-form-group >
+			<b-form-group label="Foto da Reunião">
+				<b-form-file
+					v-model="file"
+					:state="Boolean(file)"
+					accept="image/jpeg, image/png, image/gif"
+					placeholder="Carregue uma foto"
+					drop-placeholder="Carregue uma foto"
+					></b-form-file>
+			</b-form-group>
+
+			<b-button variant="success" type="submit">Criar Reunião</b-button>
+		</b-form>
+	</div>
 </template>
 
 <script>
@@ -56,6 +58,13 @@ export default {
 	const Router = useRouter()
 
 	const UserStore = useUserStore()
+
+
+	// If user is not allowed to create a new Reunion
+	if(UserStore.LoggedUserGetter.role != 'Coordenador' && UserStore.LoggedUserGetter.admin != true){
+		Router.push('/Home')
+	}
+
 
 	const ReunionStore = useReunionStore()
 
@@ -103,20 +112,16 @@ export default {
 			ReunionStore.CreateReunion({ 
 				name: name.value,
 				collaborators: collaborators ,
-				picture: file.value
-				
+				picture: file ,
+				leader: UserStore.LoggedUserGetter.id
 			})
-			
-			
-		
-		
 
 		Router.push(`/Reunion/${ReunionStore.GetReunions[ReunionStore.GetReunions.length - 1].id}`)
+
 		}
 
-		
 
-		
+
 	}
 	
 

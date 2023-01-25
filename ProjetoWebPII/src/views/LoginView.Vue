@@ -1,16 +1,21 @@
 <template>
-	<b-form @submit.prevent="Login(LoginData.email,LoginData.password)">
-		<b-form-group>
-			<b-label>Email</b-label>
-			<b-input v-model="LoginData.email" type="email"></b-input>
-		</b-form-group>
-		<b-form-group>
-			<b-label>Password</b-label>
-			<b-input v-model="LoginData.password" type="password"/>
-		</b-form-group>
+	<div class="w-100 vh-100 d-flex justify-content-center align-items-center backgroundPages">
+		<b-card class="w-25">
+			<b-form @submit.prevent="Login(LoginData.email,LoginData.password)">
+				<b-form-group>
+					<b-label>Email</b-label>
+					<b-input v-model="LoginData.email" type="email"></b-input>
+				</b-form-group>
+				<b-form-group>
+					<b-label>Password</b-label>
+					<b-input v-model="LoginData.password" type="password"/>
+				</b-form-group>
+		
+				<b-button variant="primary" type="submit">Login</b-button>
+				</b-form>
 
-		<b-button type="submit">Login</b-button>
-	</b-form>
+		</b-card>
+	</div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 
 		
 		<!-- AREAS -->
@@ -12,16 +12,16 @@
 			:items="filteredList"
 			 >
 			 <template #cell(acoes)="acoes">
-				<b-button @click="userStore.DeleteUser(acoes.item.id)" variant="danger" > Eliminar </b-button>
+				<b-button @click="UserStore.DeleteUser(acoes.item.id)" variant="danger" > Eliminar </b-button>
 			 </template>
 			 <template #cell(escola)="escola">
-				{{ userStore.FindUserProject(escola.item.id)?.nameSchool}}
+				{{ UserStore.FindUserProject(escola.item.id)?.nameSchool}}
 			 </template>
 			
 			</b-table>
 			<p>Página {{ UsersTablePage }}</p> 
 			<b-button variant="none" @click="  0 != UsersTablePage - 1 ? UsersTablePage-- : null ">◀️</b-button>
-			<b-button variant="none" @click="UsersTablePage * 5 <= userStore.GetUsers.length ? UsersTablePage++ : null">▶️</b-button>
+			<b-button variant="none" @click="UsersTablePage * 5 <= UserStore.GetUsers.length ? UsersTablePage++ : null">▶️</b-button>
 
 			<b-form-group label="Filtrar por Nome">
 				<b-input  v-model="NameFilter" ></b-input>
@@ -44,7 +44,7 @@
 				required v-model="formData.Escola" :options="EscolasList"></b-select>
 				<b-select 
 				v-if="formData.Admin"
-				required v-model="formData.Escola" disabled :options="EscolasList"></b-select>
+				v-model="formData.Escola" disabled :options="EscolasList"></b-select>
 			</b-form-group>
 			<b-form-group label="Admin">
 				<b-select required v-model="formData.Admin" :options="[ 
@@ -54,29 +54,30 @@
 			</b-form-group>
 			<b-form-group label="Função">
 				<b-select 
+				required
 				v-if="!formData.Admin"
 				v-model="formData.Funcao" 
 				:options="[ 
 					{value: 'Coordenador' , text: 'Coordenador'} ,
 					{value: 'Ajudante' , text: 'Ajudante'},
-					{value: null , text: ' '}
 					]"
 				
 				></b-select>
 				<b-select 
+				
 				v-if="formData.Admin"
 				disabled
 				v-model="formData.Funcao" 
 				:options="[ 
 					{value: 'Coordenador' , text: 'Coordenador'} ,
 					{value: 'Ajudante' , text: 'Ajudante'},
-					{value: null , text: ' '}
 					]"
 				
 				></b-select>
 			</b-form-group>
 
 			<b-button type="submit" variant="success" @click="">Criar Utilizador</b-button>
+			<b-button variant="primary" @click="clear">Limpar Campos</b-button>
 			<b-alert show>Email: {{NewUser?.email}} <br> Password: {{NewUser?.password}}</b-alert>
 		</b-form>
 
@@ -84,15 +85,24 @@
 	</div>
   </template>
   <script>
+  import { useUserStore } from "../../stores/User";
   import { defineComponent, ref } from 'vue';
-  import { useUserStore } from '../../stores/User';
   import { reactive } from 'vue';
   import { useProjectStore } from '../../stores/Project';
+import { useRouter } from 'vue-router';
 
   export default ({
 	  setup() {
 
-		  const userStore = useUserStore()
+		const Router = useRouter()
+		const UserStore = useUserStore()
+
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
+
 		  const ProjectStore = useProjectStore()
 		  const toastCount = ref(0);
 		  
@@ -127,7 +137,7 @@
 				formData.escola = null
 			}
 			
-			userStore.CreateUser(
+			UserStore.CreateUser(
 				{	email: formData.Email,
 					name:  formData.Nome,
 					escola: formData.Escola,
@@ -138,10 +148,10 @@
 			})
 
 			if(!formData.Admin){
-				ProjectStore.AddCollaborator(formData.Escola,userStore.GetUsers[userStore.GetUsers.length-1].id)
+				ProjectStore.AddCollaborator(formData.Escola,UserStore.GetUsers[UserStore.GetUsers.length-1].id)
 			}
 			
-			NewUser.value = userStore.GetUsers[userStore.GetUsers.length-1]
+			NewUser.value = UserStore.GetUsers[UserStore.GetUsers.length-1]
 			
 			formData.Nome = null
 			formData.Email = null
@@ -151,20 +161,28 @@
 		}	 
 
 
+		function clear(){
+			formData.Nome = null
+			formData.Email = null
+			formData.Escola = null	
+			formData.Admin = null
+			formData.Funcao = null
+		}
+
 		const fields = ['email',{key:'name', text: 'Nome' , sortable: true},'escola', {key:'role' , text:'role'},'admin','acoes']
 		
-		const filteredList = ref(userStore.GetUsers)
+		const filteredList = ref(UserStore.GetUsers)
 		const NameFilter = ref('')
 
 		function UsersFilteredList(search){
 			console.log('typing')
 			if(search != ''){
-				return filteredList.value = userStore.GetUsers.filter(item => {
+				return filteredList.value = UserStore.GetUsers.filter(item => {
 						return item.name.toLowerCase().includes(search.toLowerCase())
 					})
 
 			}else{
-				return filteredList.value = userStore.GetUsers
+				return filteredList.value = UserStore.GetUsers
 			}
 
 
@@ -174,6 +192,7 @@
 
 	
 		return {
+			clear,
 			NameFilter,
 			filteredList,
 			UsersFilteredList,
@@ -181,7 +200,7 @@
 			NewUser,
 			EscolasList,
 			formData,
-			userStore,
+			UserStore,
 			CreateUser,
 			UsersTablePage,
 		}

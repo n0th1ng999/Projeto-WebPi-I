@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		<div>
 			<RouterLink to="/Project/Executions">Voltar</RouterLink>
 		</div>
@@ -64,6 +64,9 @@ export default {
 		const ExecutionStore = useExecutionStore();
 		const UserStore = useUserStore();
 		const Router = useRouter();
+		if(UserStore.LoggedUserGetter.admin == true) {
+          Router.push('/admin')
+        }
 		const Route = useRoute();
 
 		const Execution = ref(ExecutionStore.GetExecutionById(Route.params.id))

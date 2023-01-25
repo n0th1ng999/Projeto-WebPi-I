@@ -1,12 +1,14 @@
 <template>
 	<div
-		class="sticky-top d-flex flex-column bg-light vh-100 p-5 justify-content-between"
+		class="sticky-top d-flex flex-column vh-100 pt-5 pb-5 justify-content-between align-items-md-center NavbarGreen "
 	>
-		<div>
-			<div class="mb-5"><h1>Logo</h1></div>
+		<div >
+			<div class="mb-5 d-flex flex-column align-items-center mx-5 ">
+				<img src="../assets/imgs/Group Owly Logo Extended.svg" class="w-100 ">
+			</div>
 
-			<div class="mb-5">
-				<h3>UserProfilePicture</h3>
+			<div class="mb-5 d-flex flex-column align-items-center ">
+				<b-img rounded="circle" v-bind="({blank: true,blankColor: '#777', height: '75px' ,  width: '75px'})" :src="userStore.LoggedUserGetter.picture"></b-img>
 				<p>{{ userStore.LoggedUserGetter.name }}</p>
 			</div>
 			<div v-if="userStore.CheckIfLoggedUserIsAdmin()">
@@ -18,7 +20,7 @@
 					<li>
 						<RouterLink to="/Reunions">Reuniões</RouterLink>
 						<Dropdown
-							><li>
+							><li class="px-5">
 								<RouterLink to="/Reunions/CreateReunion"
 									>Criar Reunião</RouterLink
 								>
@@ -47,7 +49,7 @@
 				<!-- Se o user for seu plano tiver em Planeamento-->
 				<ul>
 					<li>
-						<RouterLink to="/Home">Home</RouterLink>
+						<RouterLink to="/Home">Página Inicial</RouterLink>
 					</li>
 					<li>
 						<RouterLink to="/Reunions">Reuniões</RouterLink>
@@ -81,7 +83,7 @@
 				<!-- Se o user for seu plano tiver em Aprovação-->
 				<ul>
 					<li>
-						<RouterLink to="/">Home</RouterLink>
+						<RouterLink to="/Home">Página Inicial</RouterLink>
 					</li>
 					<li>
 						<RouterLink to="/Reunions">Reuniões</RouterLink>
@@ -108,7 +110,7 @@
 				<!-- Se o user for user e o seu plano tiver em execução-->
 				<ul>
 					<li>
-						<RouterLink to="/">Home</RouterLink>
+						<RouterLink to="/Home">Página Inicial</RouterLink>
 					</li>
 					<li>
 						<RouterLink to="/Reunions">Reuniões</RouterLink>

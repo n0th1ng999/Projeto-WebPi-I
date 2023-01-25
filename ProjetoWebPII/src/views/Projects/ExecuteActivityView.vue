@@ -1,14 +1,11 @@
 <template>
-	<div>
-		<div>
-			<RouterLink to="/Project/Executions">Voltar</RouterLink>
-		</div>
-		Executar Atividade
-		<div v-for="Activity in ProjectActivityList" :key="Activity.id">
-			{{ Activity }}
-		</div>
-
-		<b-form @submit="onSubmit">
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
+		
+		<h1 class="m-5">
+			Executar Atividade
+		</h1>
+		
+		<b-form class="text-white card p-3 w-75 mx-5" @submit="onSubmit">
 			<b-form-group
 				label="Atividade a Executar:"
 				label-for="selecionadorAtividade"
@@ -44,8 +41,11 @@
 				></b-form-file>
 			</b-form-group>
 
-			<b-button type="submit" @click="" variant="success">Criar</b-button>
-			<b-button type="button" to="/Project/Executions" variant="secondary">Voltar</b-button>
+			<div class="my-1">
+				<b-button type="submit" @click="" variant="success">Criar</b-button>
+				<b-button type="button" to="/Project/Executions" variant="secondary">Voltar</b-button>
+
+			</div>
 		</b-form>
 
 	</div>
@@ -64,6 +64,9 @@ export default {
 		const ExecutionStore = useExecutionStore();
 		const UserStore = useUserStore();
 		const Router = useRouter();
+		if(UserStore.LoggedUserGetter.admin == true) {
+          Router.push('/admin')
+        }
 	
 
 

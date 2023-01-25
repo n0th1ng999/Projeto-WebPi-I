@@ -1,8 +1,11 @@
 import { useLocalStorage } from "@vueuse/core";
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { useMessageStore } from "./Message.js";
+
 
 export const useReunionStore = defineStore("Reunion", () => {
+	const MessageStore = useMessageStore()
 	const Reunions = ref(
 		useLocalStorage("Reunions", [
 			{
@@ -10,15 +13,14 @@ export const useReunionStore = defineStore("Reunion", () => {
 				name: "Reuniao 1",
 				picture: "",
 				leader: 1,
-				collaborators: [1],
-				archived: true
+				collaborators: [1,2]
 			},
 			{
 				id: 2,
 				name: "Reuniao 2",
 				picture: "",
 				leader: 2,
-				collaborators: [2],
+				collaborators: [1,2],
 				archived: true
 			},
 		])
@@ -33,10 +35,11 @@ export const useReunionStore = defineStore("Reunion", () => {
 			id: Reunions.value[Reunions.value.length - 1].id + 1,
 			name: ReunionObj.name,
 			picture: ReunionObj.picture,
-			collaborators: ReunionObj.collaborators
+			collaborators: ReunionObj.collaborators,
+			leader : ReunionObj.leader,
+			archived: false
 		});
 	}
-
 
 	/**
 	 * @param {Object} ReunionObj id and reunion name
@@ -64,13 +67,79 @@ export const useReunionStore = defineStore("Reunion", () => {
 		return Reunions.value;
 	});
 
+	function GetReunionsByCollaboratorID(collaboratorID) {
+		return Reunions.value.filter(reunion => reunion.collaborators.some(ColID => ColID != collaboratorID))
+	
+	}
 
+	function joinCollaboratorsInArray(id){
+		let list = [];
+		GetReunionsByCollaboratorID(id).forEach( Reunion => list.push(...Reunion.collaborators))
+
+		list = [...new Set(list)]
+		return list
+	}
+	
 
 	function GetReunionById(id){
 		return Reunions.value.find((reunion) => reunion.id == id)
 	}
 
+	function getReunionsOfCollaborator(collaboratorID){
+		let ReunionsOfCollaborator = []
+
+		GetReunions.value.forEach(Reunion => {
+			if(Reunion.collaborators.some(ColID => ColID == collaboratorID)){
+				ReunionsOfCollaborator.push(Reunion) 
+		}
+
+		
+		})
+
+		return ReunionsOfCollaborator
+	}
+	
+	function FilterMostRecentMessages(id){
+		let messages = []
+
+		getReunionsOfCollaborator(id).forEach(Reunion => messages.push(...MessageStore.GetMessagesByReunion(Reunion.id)))
+		
+		return messages
+	}
+
+	function getRecentMessages(id) {
+
+		let messages = FilterMostRecentMessages(id)
+		// Sort the messages by date in descending order
+		let sortedMessages = messages.sort(function(a, b) {
+			return new Date(b.date) - new Date(a.date);
+		});
+		let result = []
+		let idReunions = []
+	
+		// Iterate through the sorted messages
+		for (let i = 0; i < sortedMessages.length; i++) {
+			if(!idReunions.some(id => id == sortedMessages[i].idReunion )){
+				result.push(sortedMessages[i])
+				idReunions.push(sortedMessages[i].idReunion)
+			}
+		// Return the first 3 messages with different idReunion
+		if (result.length === 3) {
+			break;
+		}
+		
+			}
+		return result;
+	}
+
+	console.log(getRecentMessages(1),'Messages')
+
+	
+
 	return {
+		getRecentMessages,
+		joinCollaboratorsInArray,
+		GetReunionsByCollaboratorID,
 		GetReunionById,
 		GetReunions,
 		CreateReunion,

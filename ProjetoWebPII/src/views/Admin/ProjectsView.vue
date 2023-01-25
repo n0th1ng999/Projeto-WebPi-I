@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		<div>
 			<!-- AREAS -->
 
@@ -30,6 +30,7 @@ import { useAreaStore } from '../../stores/Area';
 import { useThemeStore } from '../../stores/Theme';
 import { useProjectStore } from '../../stores/Project';
 import { useRouter } from 'vue-router';
+import { useUserStore } from "../../stores/User";
 
 
 export default {
@@ -38,6 +39,12 @@ export default {
 		const ThemeStore = useThemeStore()
 		const ProjectStore = useProjectStore()
 		const Router = useRouter()
+		const UserStore = useUserStore()
+		if(UserStore.LoggedUserGetter?.admin == false){
+
+		Router.push('/Project')
+
+		}
 
 		const fields = [
           {
