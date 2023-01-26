@@ -4,22 +4,23 @@
 			<!-- AREAS -->
 
 			<b-table 
+			class="table b-table bg-white mx-5 w-75 table-bordered " 
 			per-page="5"
 			:current-page="AreaTablePage"
 			:fields="fields"
 			:items="ProjectStore.GetProjects"
 			 >
 			<template #cell(acoes)="acoes">
-				<b-button @click="Router.push(`/Admin/Project/${acoes.item.id}`)" variant="success" > Ver Em Detalhe </b-button>
+				<b-button
+				
+				@click="Router.push(`/Admin/Project/${acoes.item.id}`)" 
+				variant="success" > Ver Em Detalhe </b-button>
 			</template>
-
 			</b-table>
 			<p>Página {{ AreaTablePage }}</p> 
 			<b-button variant="none" @click="  0 != AreaTablePage - 1 ? AreaTablePage-- : null ">◀️</b-button>
 			<b-button variant="none" @click="AreaTablePage * 5 <= ProjectStore.GetProjects.length ? AreaTablePage++ : null">▶️</b-button>
-
 			<br>
-
 		</div>
 	</div>
 </template>

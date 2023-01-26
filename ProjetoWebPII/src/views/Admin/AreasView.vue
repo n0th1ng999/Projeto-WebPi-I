@@ -3,6 +3,7 @@
 		<div>
 			<!-- AREAS -->
 			<b-table 
+			class="table b-table bg-white mx-5 w-75 table-bordered " 
 			per-page="5"
 			:current-page="AreaTablePage"
 			:fields="fields"
@@ -27,11 +28,10 @@
 			</b-form>
 			<br>
 
-
-
 			<!-- THEMES -->
 			<b-table
 			per-page="5"
+			class="table b-table bg-white mx-5 w-75 table-bordered " 
 			:current-page="ThemeTablePage"
 			:fields="fields" 
 			:items="ThemeStore.GetThemes" >

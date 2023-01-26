@@ -8,7 +8,7 @@
 			</div>
 
 			<div class="mb-5 d-flex flex-column align-items-center ">
-				<b-img rounded="circle" v-bind="({blank: true,blankColor: '#777', height: '75px' ,  width: '75px'})" :src="userStore.LoggedUserGetter.picture"></b-img>
+				<b-img @click="Router.push('/Profile/EditProfile')" to="/Profile/EditProfile" rounded="circle" v-bind="({blank: true,blankColor: '#777', height: '75px' ,  width: '75px'})" :src="userStore.LoggedUserGetter.picture"></b-img>
 				<p>{{ userStore.LoggedUserGetter.name }}</p>
 			</div>
 			<div v-if="userStore.CheckIfLoggedUserIsAdmin()">
@@ -142,6 +142,7 @@
 import { useUserStore } from "../stores/User";
 import Dropdown from "./Dropdown.vue";
 import { RouterLink, useRouter } from "vue-router";
+import router from "../router";
 
 export default {
 	components: {
@@ -162,7 +163,7 @@ export default {
 		
 		
 		
-		return { userStore,LogOff };
+		return { userStore,LogOff,Router };
 
 	},
 };

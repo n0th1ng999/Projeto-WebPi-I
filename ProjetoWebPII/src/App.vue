@@ -18,19 +18,6 @@ export default {
 
 		const RoutesThatDontNeedSideNav = ["/", "/Login"];
 
-		const RoutesThatAreForAdminOnly = [
-		'/Admin','/Admin/Areas','/Admin/Schools',
-		'/Admin/Projects','/Admin/Users','/Admin/Levels',
-		'/Admin/Project/:id','/Admin/Project/:id','/Admin/Project/:id'
-
-		]
-
-		const RoutesThatAreForUsersOnly = 
-		['/Project','/Profile/:id','/Profile/EditProfile',
-		'/Project/CreateActivity','/Project/Activity/:id',
-		'/Project/EditActivity/:id','/Project/EditExecution/:id',
-		'/Project/ExecuteActivity','/Project/Executions']
-
 		watch(route, async (newRoute, OldRoute) => {
 			if (
 				RoutesThatDontNeedSideNav.some(
@@ -41,7 +28,19 @@ export default {
 			} else {
 				NavState.value = true;
 			}
+			
+
+			if (
+				!RoutesThatDontNeedSideNav.some(
+					(routePath) => routePath == newRoute.fullPath
+				) && UserStore.LoggedUserGetter.id == undefined
+			) {
+				router.push('/Login')
+			}
+
 		});
+
+		
 
 		const NavState = ref(true);
 

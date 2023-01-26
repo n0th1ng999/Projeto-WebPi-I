@@ -182,12 +182,12 @@ const router = createRouter({
 			component: SingleProjectView,
 		},
 		{
-			path: "/Admin/Project/:id",
+			path: "/Admin/Project/:id/Executions",
 			name: "ProjectExecutionsView",
 			component: ProjectExecutionsView,
 		},
 		{
-			path: "/Admin/Project/:id",
+			path: "/Admin/Project/:id/Activity/:idActivity",
 			name: "ProjectActivityView",
 			component: ProjectActivityView,
 		},

@@ -7,7 +7,7 @@ export const useMessageStore = defineStore("Messages", () => {
 		useLocalStorage("Messages", [
 			{
 				id: 1,
-				text: "Poupança de Água",
+				text: "Olá !! Temos que começar a poupar eletricidade",
 				image: "",
 				author: 1,
 				idReunion: 1,
@@ -15,7 +15,7 @@ export const useMessageStore = defineStore("Messages", () => {
 			},
 			{
 				id: 2,
-				text: "Poupança de Eletricidade",
+				text: "Concordo com isso !",
 				image: "",
 				author: 2,
 				idReunion: 1,

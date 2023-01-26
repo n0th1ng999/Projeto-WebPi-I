@@ -26,8 +26,6 @@
 				<tr v-for="Execution in ExecutionStore.GetExecutionByActivityFunction(Activity.id)">
 					<td>
 						<img :src="Execution.image" :alt="Execution.image"> {{ Execution.description }} 
-						<b-button :to="`/Project/EditExecution/${Execution.id }`" variant="success"> Editar </b-button>
-						<b-button variant="danger" @click="ExecutionStore.DeleteExecution(Execution.id)"> Eliminar</b-button>
 					</td>
 				</tr>
 			</template>
@@ -37,9 +35,6 @@
 		<div class="mx-5">
 			<b-button :to="`/Admin/Project/${Route.params.id}`">Voltar</b-button>
 		</div>
-		
-
-		
 
 	</div>
 </template>

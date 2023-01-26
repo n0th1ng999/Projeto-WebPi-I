@@ -8,7 +8,7 @@
 				<span v-else>Projeto {{ UserStore.FindLoggedUserProject().nameProject }}</span>
 				
 				<template v-if="UserStore.FindLoggedUserProject().state == 'Planeamento'" >
-				<b-button variant="primary" v-if="UserStore.LoggedUserGetter.funcao ='coordenador'" @click="editName = !editName">
+				<b-button variant="primary" v-if="UserStore.LoggedUserGetter.funcao ='Coordenador'" @click="editName = !editName">
 				<template v-if="!editName">Editar Titulo</template>
 				<template v-else >Fechar</template>
 				</b-button>
@@ -24,16 +24,16 @@
 				,ActivityStore.GetAreaCountByProjectID(UserStore.FindLoggedUserProject().id)).name}}
 			</b-badge></p>
 			
-			<div v-if="UserStore.FindLoggedUserProject().state == 'Planeamento'" >
+			<div class="mx-5 mb-3" v-if="UserStore.FindLoggedUserProject().state == 'Planeamento'" >
 			  <b-select  v-if="editTheme" v-model="UserStore.FindLoggedUserProject().theme" :options="ThemeStore.GetThemes.map(theme => ({value: theme.id, text: theme.name}))"></b-select>
 			  <b-button v-if="!editTheme" @click="editTheme = !editTheme" >Escolher Tema</b-button>
 			  <b-button v-if="editTheme" @click="editTheme = !editTheme" >Fechar</b-button>
 		  	</div>
 
-		<b-table class="table b-table bg-white mx-5 w-75 table-bordered "  :fields="fields" :items="ActivitysOfProject">
+		<b-table class="table b-table bg-white mx-5 w-75 table-bordered"  :fields="fields" :items="ActivitysOfProject">
 			<template #cell(Ações)="row">
 				<b-button @click="GoToActivityView(row.item.id)">Detalhes</b-button>
-			</template></b-table		>
+			</template></b-table>
 
 		<div class="mx-5">
 			<b-button
@@ -76,10 +76,9 @@
 
 		<br>
 
-
 		<br>
 		<div v-if="UserStore.LoggedUserGetter.role == 'Coordenador'">
-			<b-button
+			<b-button class="mx-5"
 				v-if="Project.state == 'Planeamento'" 
 				@click="Project.state = 'Em Aprovação'">
 				Pedir Aprovação
@@ -148,6 +147,7 @@ export default {
 		ActivitysOfProject.forEach((Activity) => {
 			ProjectExecutions.value.push(ExecutionStore.GetExecutionByActivityFunction(Activity.id));
 		})
+
 		
 
 		return {

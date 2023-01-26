@@ -59,7 +59,7 @@ export default {
 		const ActivityStore = useActivityStore();
 		const AreaStore = useAreaStore()
 
-		const Activity = ActivityStore.GetActivityById(Route.params.activityId);
+		const Activity = ActivityStore.GetActivityById(Route.params.idActivity);
 
 	
 	

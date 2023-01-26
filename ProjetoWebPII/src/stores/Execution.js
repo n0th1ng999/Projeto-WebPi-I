@@ -6,16 +6,9 @@ export const useExecutionStore = defineStore("Execution", () => {
 	const Executions = ref(
 		useLocalStorage("Execution", [
 			{
-				id: 1,
-				idActivity: 3,
-				description: "Poupança de Água",
-				image: "",
-				date: new Date(),
-			},
-			{
 				id: 2,
 				idActivity: 2,
-				description: "Poupança de Eletricidade",
+				description: "Instala-mos Aquecedores novos! São 10% mais eficazes.",
 				image: "",
 				date: new Date(),
 			},

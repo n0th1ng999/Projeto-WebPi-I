@@ -1,6 +1,7 @@
 <template>
 	<div class="w-100 vh-100 backgroundPages overflow-auto">
 		<b-table 
+		class="table b-table bg-white mx-5 w-75 table-bordered " 
 		:fields="fields"
 		:items="items">
 			<template #cell(acoes)="acoes">

@@ -1,6 +1,8 @@
 <template>
 	<div class="w-100 vh-100 backgroundPages overflow-auto">
-	<b-table :fields="fields" :items="ProjectStore.GetProjects">
+	<b-table 
+	class="table b-table bg-white mx-5 w-75 table-bordered " 
+	:fields="fields" :items="ProjectStore.GetProjects">
 		<template #cell(acoes)="row">
 			<b-button variant="danger" @click="DeleteProject(row.item.id)">Eliminar</b-button>
 

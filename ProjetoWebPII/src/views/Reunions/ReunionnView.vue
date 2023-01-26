@@ -4,12 +4,17 @@
             <div class="m-5">
                 <h1>
                     
-                    <span v-if="!EditName">{{ ReunionStore.GetReunionById(Route.params.id).name }}</span>
-                    <template v-if="UserStore.LoggedUserGetter.id == ReunionStore.GetReunionById(Route.params.id).leader">
-                        <b-input v-model="ReunionStore.GetReunionById(Route.params.id).name" v-if="EditName"></b-input>
-                        <b-button variant="primary" @click="EditName =  !EditName " v-if="!EditName ">Editar Nome</b-button>
-                        <b-button variant="primary" @click="EditName =  !EditName " v-else>Fechar</b-button>
                     
+                    
+                    <span v-if="!EditName">{{ ReunionStore.GetReunionById(Route.params.id).name }}</span>
+                    <template v-if="!ReunionStore.GetReunionById(Route.params.id).archived">
+                        <template v-if="UserStore.LoggedUserGetter.id == ReunionStore.GetReunionById(Route.params.id).leader">
+                            <b-input v-model="ReunionStore.GetReunionById(Route.params.id).name" v-if="EditName"></b-input>
+                            <b-button variant="primary" @click="EditName =  !EditName " v-if="!EditName ">Editar Nome</b-button>
+                            <b-button variant="primary" @click="EditName =  !EditName " v-else>Fechar</b-button>
+                        
+                        </template>
+                        
                     </template>
                 </h1>
                 <small v-if="ReunionStore.GetReunionById(Route.params.id).archived">Reunião Arquivada 
@@ -35,8 +40,10 @@
                 <!-- LoggedUser -->
                 <div class="text-white card w-25 mx-5 mb-2 p-3" v-if="UserStore.LoggedUserGetter.id == Message.author">
                     <b-img v-if="Message.image" :src="Message.image" width="50px"></b-img>
-                    {{ Message.text }} 
-                
+                   
+                   <p>
+                       {{ Message.text }} 
+                   </p> 
                     <small>{{ new Date(Message.date).toLocaleString('default', { 
                                                     day: '2-digit', 
                                                     month: '2-digit', 
@@ -53,10 +60,10 @@
                 <div  class="text-green d-flex flex-row-reverse mx-5 mb-2"  v-if="UserStore.LoggedUserGetter.id != Message.author">
                     <div class="card w-25 align-self-end p-3" style="background:#FDF8C0">
     
-                    +
+                    
                     <b-img v-if="Message.image" :src="Message.image"></b-img>
                     {{ Message.text }} 
-                    <small> {{ UserStore.GetUserFunc(Message.author).name }} <br>
+                    <small @click="Router.push('/Profile/'+Message.author)"> {{ UserStore.GetUserFunc(Message.author).name }} <br>
                      {{ new Date(Message.date).toLocaleString('default', { 
                                                     day: '2-digit', 
                                                     month: '2-digit', 
@@ -148,7 +155,7 @@ export default {
         
         
 
-        return {ReunionStore,MessageStore,Route,UserStore,message,messageFile,CreateMessage,EditName,Chat,ScrollToBottom}
+        return {ReunionStore,MessageStore,Route,UserStore,message,messageFile,CreateMessage,EditName,Chat,ScrollToBottom,Router}
     },
     mounted(){
             this.ScrollToBottom()

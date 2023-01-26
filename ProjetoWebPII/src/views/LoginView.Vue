@@ -59,7 +59,7 @@ export default {
 				}
 			}
 			catch{
-				alert('Login failed')
+				alert('Login failed!')
 			}
 		}
 

@@ -1,14 +1,18 @@
 <template>
     <div class="w-100 vh-100 backgroundPages overflow-auto">
+        <h1 class="m-5">Reuniões</h1>
         <template
         v-for="Reunion in ReunionStore.GetReunions"
          :key="Reunion.id">
-        <div v-if="Reunion.collaborators.some(ColID => ColID == userStore.LoggedUserGetter.id)">
-            <b-img :src="Reunion.picture" width="80"></b-img> {{ Reunion.name }} 
+        <div class="bg-white p-2  mx-5 mb-3 d-flex rounded"  style="width:fit-content" v-if="Reunion.collaborators.some(ColID => ColID == userStore.LoggedUserGetter.id)">
+            <b-img class="mr-2" :src="Reunion.picture"  width="40"></b-img>
+             <span class="mr-2">
+                {{ Reunion.name }} 
+            </span>
             <b-button :to="'/Reunion/'+Reunion.id">Ver</b-button>
         </div>
         </template> 
-        <b-button v-if="CreateReunionBtn" to="/Reunions/CreateReunion">Criar Reunião</b-button>
+        <b-button class="mx-5" v-if="CreateReunionBtn" to="/Reunions/CreateReunion">Criar Reunião</b-button>
     </div>
 </template>
 

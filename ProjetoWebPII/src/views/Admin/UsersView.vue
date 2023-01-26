@@ -5,6 +5,7 @@
 		<!-- AREAS -->
 		
 		<b-table 
+			class="table b-table bg-white mx-5 w-75 table-bordered " 
 			 filter=""
 			per-page="5"
 			:current-page="UsersTablePage"
@@ -12,7 +13,7 @@
 			:items="filteredList"
 			 >
 			 <template #cell(acoes)="acoes">
-				<b-button @click="UserStore.DeleteUser(acoes.item.id)" variant="danger" > Eliminar </b-button>
+				<b-button @click="UserStore.DeleteUser(acoes.item.id); refresh()" variant="danger" > Eliminar </b-button>
 			 </template>
 			 <template #cell(escola)="escola">
 				{{ UserStore.FindUserProject(escola.item.id)?.nameSchool}}
@@ -185,6 +186,11 @@ import { useRouter } from 'vue-router';
 				return filteredList.value = UserStore.GetUsers
 			}
 
+			
+		}
+
+		function refresh(){
+			filteredList.value = UserStore.GetUsers
 
 		}
 
@@ -192,6 +198,7 @@ import { useRouter } from 'vue-router';
 
 	
 		return {
+			refresh,
 			clear,
 			NameFilter,
 			filteredList,

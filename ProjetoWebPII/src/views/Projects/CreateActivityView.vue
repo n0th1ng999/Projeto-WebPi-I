@@ -102,7 +102,7 @@ export default {
 		
 
              activityStore.CreateActivity({
-				 idProject: userStore.FindLoggedUserProject().id,
+				 idProject: UserStore.FindLoggedUserProject().id,
                  idArea : formdata.idArea,
                  name : formdata.name,
                  diagonóstico: formdata.diagonóstico,

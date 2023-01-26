@@ -8,7 +8,7 @@ export const useActivityStore = defineStore("Activity", () => {
 		useLocalStorage("Activitys", [
 			{
 				id: 1,
-				idProject: 2,
+				idProject: 3,
 				idArea: 1,
 				name: "Instalar canos novos",
 				diagonóstico: "texto",

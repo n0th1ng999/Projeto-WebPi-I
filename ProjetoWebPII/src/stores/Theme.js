@@ -13,6 +13,10 @@ export const useThemeStore = defineStore("Theme", () => {
 				id: 2,
 				name: "Tema 2",
 			},
+			{
+				id: 3,
+				name: "Tema 3",
+			},
 		])
 	);
 
